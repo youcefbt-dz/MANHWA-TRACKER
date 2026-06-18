@@ -492,7 +492,7 @@
         <div class="section-label">
             <div class="section-label-bar"></div>
             <h2>Library</h2>
-            <span class="font-mono text-xs text-gray-600 ml-auto hidden md:block">// sorted by tier rank</span>
+            <span class="font-mono text-xs text-gray-600 ml-auto hidden md:block">// sorted by tier rank, then sub-rating (20)</span>
         </div>
         <div id="listContainer" class="space-y-3"></div>
     </section>
@@ -560,15 +560,28 @@
                 </div>
             </div>
 
-            <!-- Rating -->
+            <!-- Star Rating (1-5) for tier -->
             <div class="space-y-1.5">
-                <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Rating *</label>
+                <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Star Rating (Tier) *</label>
                 <div id="starsRow" class="flex items-center gap-1">
-                    <button class="star-btn" onclick="setRating(1)">★</button>
-                    <button class="star-btn" onclick="setRating(2)">★</button>
-                    <button class="star-btn" onclick="setRating(3)">★</button>
-                    <button class="star-btn" onclick="setRating(4)">★</button>
-                    <button class="star-btn" onclick="setRating(5)">★</button>
+                    <button class="star-btn" onclick="setStarRating(1)">★</button>
+                    <button class="star-btn" onclick="setStarRating(2)">★</button>
+                    <button class="star-btn" onclick="setStarRating(3)">★</button>
+                    <button class="star-btn" onclick="setStarRating(4)">★</button>
+                    <button class="star-btn" onclick="setStarRating(5)">★</button>
+                </div>
+            </div>
+
+            <!-- Sub Rating (0-20) for internal order -->
+            <div class="space-y-1.5">
+                <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">
+                    Sub Rating (0-20) <span class="text-vCyan">— orders within tier</span>
+                </label>
+                <div class="flex items-center gap-3">
+                    <input type="range" id="subRatingSlider" min="0" max="20" value="0" step="1"
+                           oninput="document.getElementById('subRatingVal').textContent = this.value; updateSubRating()"
+                           class="flex-1 h-1 bg-vDark accent-vRed cursor-pointer" />
+                    <span id="subRatingVal" class="font-mono text-vCyan text-lg min-w-[2rem] text-center">0</span>
                 </div>
             </div>
 
@@ -624,8 +637,11 @@
             </div>
         </div>
 
-        <!-- Rating row -->
-        <div id="pvStars" class="text-vRed text-xl tracking-wider">☆☆☆☆☆</div>
+        <!-- Star rating + sub rating -->
+        <div class="flex items-center gap-3">
+            <div id="pvStars" class="text-vRed text-xl tracking-wider">☆☆☆☆☆</div>
+            <span id="pvSubRating" class="font-mono text-xs text-vCyan bg-vDark/80 px-2 py-0.5 border border-white/10">0/20</span>
+        </div>
 
         <!-- Notes -->
         <p id="pvNotes" class="text-sm text-gray-400 leading-relaxed italic line-clamp-4 min-h-[1.5rem]">
@@ -717,7 +733,7 @@
     (function() {
 
         /* ────── Constants ────── */
-        const SK = 'manhwatracker_v2';
+        const SK = 'manhwatracker_v3'; // bumped version to avoid conflicts
 
         const TIERS = ['S', 'A', 'B', 'C', 'D', 'E'];
 
@@ -748,7 +764,8 @@
 
         /* ────── State ────── */
         let list = [];
-        let rating = 0;
+        let starRating = 0;        // 1-5 for tier
+        let subRating = 0;         // 0-20 for internal order
         let cover = null;
         let editId = null;
         let delId = null;
@@ -840,6 +857,8 @@
             try {
                 const raw = JSON.parse(localStorage.getItem(SK));
                 list = Array.isArray(raw) ? raw : defaultData();
+                // Ensure all entries have subRating field (for old data)
+                list.forEach(m => { if (m.subRating === undefined) m.subRating = 0; });
             } catch (e) { list = defaultData(); }
         }
 
@@ -848,30 +867,30 @@
                 { id: 1, title: 'Solo Leveling', chapter: 179, status: 'Completed',
                     notes: 'Sung Jin-woo clearing gates — one of the best power fantasies in manhwa.',
                     image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=400&auto=format&fit=crop',
-                    rating: 5, tier: 'S', added: new Date(Date.now() - 5e7).toISOString() },
+                    rating: 5, subRating: 18, tier: 'S', added: new Date(Date.now() - 5e7).toISOString() },
                 { id: 2, title: 'Omniscient Reader', chapter: 215, status: 'Reading',
                     notes: 'World-building is insane. Story-within-a-story concept executed perfectly.',
                     image: 'https://images.unsplash.com/photo-1535663116935-714fbf4e5f28?q=80&w=400&auto=format&fit=crop',
-                    rating: 5, tier: 'S', added: new Date(Date.now() - 4e7).toISOString() },
+                    rating: 5, subRating: 19, tier: 'S', added: new Date(Date.now() - 4e7).toISOString() },
                 { id: 3, title: 'Doom Breaker', chapter: 98, status: 'Reading',
                     notes: 'Great action, solid regression plot. Artwork is consistently clean.',
                     image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=400&auto=format&fit=crop',
-                    rating: 4, tier: 'A', added: new Date(Date.now() - 3e7).toISOString() },
+                    rating: 4, subRating: 15, tier: 'A', added: new Date(Date.now() - 3e7).toISOString() },
                 { id: 4, title: 'Sword King', chapter: 194, status: 'Reading',
                     notes: 'Underrated series — funny moments balanced with great combat.',
                     image: 'https://images.unsplash.com/photo-1618172193763-c511deb635ca?q=80&w=400&auto=format&fit=crop',
-                    rating: 4, tier: 'A', added: new Date(Date.now() - 2e7).toISOString() },
+                    rating: 4, subRating: 17, tier: 'A', added: new Date(Date.now() - 2e7).toISOString() },
             ];
         }
 
-        /* ────── Tier mapping ────── */
+        /* ────── Tier mapping from star rating ────── */
         function ratingToTier(r) {
             return ['E', 'D', 'C', 'B', 'A', 'S'][r] ?? 'E';
         }
 
-        /* ────── Rating UI ────── */
-        window.setRating = function(n) {
-            rating = n;
+        /* ────── Star Rating UI (1-5) ────── */
+        window.setStarRating = function(n) {
+            starRating = n;
             beep('click');
             refreshStarUI();
             updatePreview();
@@ -879,10 +898,10 @@
 
         function refreshStarUI() {
             const btns = document.querySelectorAll('#starsRow .star-btn');
-            btns.forEach((b, i) => b.classList.toggle('lit', i < rating));
+            btns.forEach((b, i) => b.classList.toggle('lit', i < starRating));
             const td = document.getElementById('tierDisplay');
-            if (rating > 0) {
-                const tier = ratingToTier(rating);
+            if (starRating > 0) {
+                const tier = ratingToTier(starRating);
                 td.textContent = TIER_LABELS[tier];
                 td.style.borderColor = TIER_COLORS[tier];
                 td.style.color = TIER_COLORS[tier];
@@ -892,6 +911,13 @@
                 td.style.color = '#4a5568';
             }
         }
+
+        /* ────── Sub Rating (0-20) ────── */
+        window.updateSubRating = function() {
+            subRating = parseInt(document.getElementById('subRatingSlider').value);
+            document.getElementById('subRatingVal').textContent = subRating;
+            updatePreview();
+        };
 
         /* ────── Cover input ────── */
         window.handleFileUpload = function(e) {
@@ -913,7 +939,7 @@
             updatePreview();
         };
 
-        /* ────── Live preview (no placeholder text) ────── */
+        /* ────── Live preview ────── */
         function updatePreview() {
             const title = document.getElementById('fTitle').value.trim();
             const chapter = document.getElementById('fChapter').value.trim();
@@ -924,7 +950,8 @@
             document.getElementById('pvChapter').textContent = chapter ? `Ch. ${chapter}` : 'Ch. —';
             document.getElementById('pvStatus').textContent = status || 'No status';
             document.getElementById('pvNotes').textContent = notes || '\u00A0';
-            document.getElementById('pvStars').textContent = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+            document.getElementById('pvStars').textContent = '★'.repeat(starRating) + '☆'.repeat(5 - starRating);
+            document.getElementById('pvSubRating').textContent = subRating + '/20';
 
             const img = document.getElementById('pvCover');
             const fallback = document.getElementById('pvCoverFallback');
@@ -953,18 +980,21 @@
 
             if (!title) return toast('Please enter a title');
             if (isNaN(chapter) || chapter < 0) return toast('Enter a valid chapter number');
-            if (!rating) return toast('Please set a rating');
+            if (!starRating) return toast('Please set a star rating');
+            if (subRating < 0 || subRating > 20) return toast('Sub rating must be 0-20');
+
+            const tier = ratingToTier(starRating);
 
             if (editId !== null) {
                 const idx = list.findIndex(m => m.id === editId);
                 if (idx !== -1) {
-                    list[idx] = { ...list[idx], title, chapter, status, notes, image: cover || '', rating,
-                        tier: ratingToTier(rating) };
+                    list[idx] = { ...list[idx], title, chapter, status, notes, image: cover || '', 
+                                  rating: starRating, subRating, tier };
                     toast(`Updated: ${title}`);
                 }
             } else {
-                list.push({ id: Date.now(), title, chapter, status, notes, image: cover || '', rating,
-                    tier: ratingToTier(rating), added: new Date().toISOString() });
+                list.push({ id: Date.now(), title, chapter, status, notes, image: cover || '', 
+                            rating: starRating, subRating, tier, added: new Date().toISOString() });
                 toast(`Added: ${title}`);
             }
 
@@ -983,7 +1013,10 @@
             });
             document.getElementById('fStatus').value = 'Reading';
             document.getElementById('coverFile').value = '';
-            rating = 0;
+            starRating = 0;
+            subRating = 0;
+            document.getElementById('subRatingSlider').value = 0;
+            document.getElementById('subRatingVal').textContent = '0';
             cover = null;
             editId = null;
 
@@ -1006,10 +1039,14 @@
             document.getElementById('fChapter').value = m.chapter;
             document.getElementById('fStatus').value = m.status;
             document.getElementById('fNotes').value = m.notes;
-            document.getElementById('coverUrl').value = m.image.startsWith('http') ? m.image : '';
+            document.getElementById('coverUrl').value = m.image && m.image.startsWith('http') ? m.image : '';
 
             cover = m.image || null;
-            rating = m.rating;
+            starRating = m.rating;
+            subRating = m.subRating ?? 0;
+
+            document.getElementById('subRatingSlider').value = subRating;
+            document.getElementById('subRatingVal').textContent = subRating;
 
             document.getElementById('formTitle').innerHTML =
                 `<span class="w-2.5 h-2.5 bg-vGold inline-block"></span> Editing: ${m.title}`;
@@ -1028,6 +1065,19 @@
             const m = list.find(x => x.id === id);
             if (!m) return;
             m.chapter = (parseInt(m.chapter) || 0) + 1;
+            beep('click');
+            save();
+            renderList();
+        };
+
+        /* ────── Adjust sub rating from card ────── */
+        window.adjustSubRating = function(id, delta, e) {
+            e.stopPropagation();
+            const m = list.find(x => x.id === id);
+            if (!m) return;
+            let newVal = (m.subRating || 0) + delta;
+            newVal = Math.min(20, Math.max(0, newVal));
+            m.subRating = newVal;
             beep('click');
             save();
             renderList();
@@ -1088,11 +1138,18 @@
                 return matchF && matchQ;
             });
 
+            // Global sort (before splitting into tiers)
             items.sort((a, b) => {
                 if (sort === 'added-desc') return new Date(b.added) - new Date(a.added);
                 if (sort === 'added-asc') return new Date(a.added) - new Date(b.added);
-                if (sort === 'rating-desc') return b.rating - a.rating;
-                if (sort === 'rating-asc') return a.rating - b.rating;
+                if (sort === 'rating-desc') {
+                    if (b.rating !== a.rating) return b.rating - a.rating;
+                    return (b.subRating || 0) - (a.subRating || 0);
+                }
+                if (sort === 'rating-asc') {
+                    if (a.rating !== b.rating) return a.rating - b.rating;
+                    return (a.subRating || 0) - (b.subRating || 0);
+                }
                 if (sort === 'title-asc') return a.title.localeCompare(b.title);
                 return 0;
             });
@@ -1109,6 +1166,12 @@
             TIERS.forEach(tier => {
                 const members = items.filter(m => m.tier === tier);
                 if (members.length === 0) return;
+
+                // Sort within tier by subRating descending, then by title
+                members.sort((a, b) => {
+                    if ((b.subRating || 0) !== (a.subRating || 0)) return (b.subRating || 0) - (a.subRating || 0);
+                    return a.title.localeCompare(b.title);
+                });
 
                 const row = document.createElement('div');
                 row.className = 'tier-row grid grid-cols-1 lg:grid-cols-12 overflow-hidden';
@@ -1160,7 +1223,10 @@
               <div class="min-w-0">
                 <h4 class="font-riot text-xs text-white truncate tracking-wide group-hover:text-vRed transition-colors"
                     title="${sanitize(m.title)}">${sanitize(m.title).toUpperCase()}</h4>
-                <div class="text-vRed text-[11px] mt-0.5">${'★'.repeat(m.rating)}</div>
+                <div class="flex items-center gap-1">
+                  <div class="text-vRed text-[11px]">${'★'.repeat(m.rating)}</div>
+                  <span class="font-mono text-[9px] text-vCyan bg-vDark/80 px-1">${m.subRating ?? 0}/20</span>
+                </div>
               </div>
               <div class="flex items-center justify-between border-t border-white/5 pt-2 mt-1">
                 <div>
@@ -1171,6 +1237,12 @@
                   <button onclick="addChapter(${m.id},event)"
                     class="px-2 py-1 border border-white/10 hover:border-vGreen hover:text-vGreen font-mono text-[9px] text-gray-400 font-bold transition-all"
                     title="Add chapter">+1</button>
+                  <button onclick="adjustSubRating(${m.id}, 1, event)"
+                    class="px-1 py-0.5 border border-white/10 hover:border-vCyan hover:text-vCyan font-mono text-[8px] text-gray-500 font-bold transition-all"
+                    title="Increase sub rating">▲</button>
+                  <button onclick="adjustSubRating(${m.id}, -1, event)"
+                    class="px-1 py-0.5 border border-white/10 hover:border-vCyan hover:text-vCyan font-mono text-[8px] text-gray-500 font-bold transition-all"
+                    title="Decrease sub rating">▼</button>
                   <button onclick="askDelete(${m.id},event)"
                     class="p-1 text-gray-600 hover:text-vRed transition-colors"
                     title="Delete">
@@ -1267,6 +1339,8 @@
                     const d = JSON.parse(ev.target.result);
                     if (Array.isArray(d)) {
                         list = d;
+                        // Ensure subRating exists
+                        list.forEach(m => { if (m.subRating === undefined) m.subRating = 0; });
                         save();
                         renderList();
                         updateStats();
