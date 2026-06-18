@@ -321,7 +321,7 @@
             color: #ece8e1;
         }
 
-        /* ── Hero accent diagonal ── */
+        /* ── Hero accent diagonal ── (old, now unused) */
         .hero-diagonal {
             position: absolute;
             bottom: 0;
@@ -352,6 +352,133 @@
                 max-width: 160px;
             }
         }
+        
+        /* ══════════════ NEW HERO STYLES ══════════════ */
+        .hero-full {
+            position: relative;
+            width: 100%;
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border: none;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1634828221818-503587f33d02?q=80&w=1065&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center 20%;
+            filter: brightness(0.5) saturate(1.3);
+        }
+        .hero-overlay-1 {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(15,25,35,0.9) 0%, rgba(15,25,35,0.4) 60%, transparent 100%);
+        }
+        .hero-overlay-2 {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15,25,35,0.85) 0%, transparent 50%);
+        }
+        .hero-chara-container {
+            position: absolute;
+            right: 0;
+            top: -6%;
+            width: 55%;
+            height: 110%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .hero-chara {
+            position: absolute;
+            right: -2%;
+            bottom: 0;
+            height: 105%;
+            width: auto;
+            object-fit: contain;
+            object-position: right bottom;
+            opacity: 0.85;
+            filter: drop-shadow(0 0 30px rgba(255,70,85,0.15));
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2.5rem;
+        }
+        .hero-text-area {
+            flex: 1 1 500px;
+            max-width: 650px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,70,85,0.1);
+            border: 1px solid rgba(255,70,85,0.35);
+            padding: 6px 18px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #ff4655;
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge-dot {
+            width: 8px; height: 8px;
+            background: #ff4655;
+            animation: tac-pulse 1.8s ease-in-out infinite;
+        }
+        .hero-title {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #fff;
+            margin-bottom: 1.2rem;
+        }
+        .hero-desc {
+            font-size: 1rem;
+            color: #b0b8c1;
+            max-width: 480px;
+            line-height: 1.7;
+        }
+        .hero-stats-panel {
+            flex-shrink: 0;
+            background: rgba(15,25,35,0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(236,232,225,0.08);
+            padding: 1.5rem 1.8rem;
+            min-width: 230px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 0.65rem 0;
+        }
+        .stat-label {
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 11px;
+        }
+        .stat-value {
+            font-weight: 700;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body class="text-vCream font-sans min-h-screen pb-20 selection:bg-vRed selection:text-vDark">
@@ -360,8 +487,8 @@
 
     <div class="relative z-10 flex flex-col min-h-screen">
 
-        <!-- ════ NAV ════ -->
-        <nav class="sticky top-0 z-50 bg-vDark/96 border-b border-white/5 backdrop-blur-md">
+        <!-- ════ NAV (شفاف، يعلو الهيرو) ════ -->
+        <nav class="sticky top-0 z-50 bg-transparent backdrop-blur-md border-b border-white/5">
             <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
 
                 <!-- Logo -->
@@ -408,54 +535,58 @@
     </div>
 </nav>
 
+<!-- ════════════════ HERO FULLSCREEN (جديد) ════════════════ -->
+<section class="hero-full">
+    <!-- خلفية بانورامية -->
+    <div class="hero-bg"></div>
+
+    <!-- طبقات التدرج لقراءة النص -->
+    <div class="hero-overlay-1"></div>
+    <div class="hero-overlay-2"></div>
+
+    <!-- الشخصية المخترقة -->
+    <div class="hero-chara-container">
+        <img 
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Cpath fill='%23ff4655' opacity='0.2' d='M200 0 L250 100 L300 100 L330 200 L350 350 L380 450 L370 600 L30 600 L20 450 L50 350 L70 200 L100 100 L150 100 Z'/%3E%3Ccircle cx='200' cy='70' r='30' fill='%23ff4655' opacity='0.3'/%3E%3Cpath d='M170 110 L140 180 L150 250 L130 350 L120 450' stroke='%23ff4655' stroke-width='4' fill='none' opacity='0.25'/%3E%3Cpath d='M230 110 L260 180 L250 250 L270 350 L280 450' stroke='%23ff4655' stroke-width='4' fill='none' opacity='0.25'/%3E%3C/svg%3E"
+            alt="Manhwa character" 
+            class="hero-chara"
+        >
+    </div>
+
+    <!-- المحتوى النصي والستاتس -->
+    <div class="hero-content">
+        <div class="hero-text-area">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Your reading list
+            </div>
+            <h1 class="hero-title">
+                Chronicle <span class="text-vRed">Tracker</span>
+            </h1>
+            <p class="hero-desc">
+                Track every manhwa you're reading, rate them, and keep notes — all saved in your browser.
+            </p>
+        </div>
+
+        <div class="hero-stats-panel">
+            <div class="stat-row">
+                <span class="stat-label">Status</span>
+                <span class="stat-value text-vGreen">Synced</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Total entries</span>
+                <span id="statCount" class="stat-value text-vRed">0</span>
+            </div>
+            <div class="stat-row !border-none">
+                <span class="stat-label">Clock</span>
+                <span id="clockEl" class="stat-value text-vCyan">--:--:--</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════ المحتوى الأساسي (بدون الهيرو القديم) ════ -->
 <main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-8 py-10 space-y-14">
-
-    <!-- ════ HERO ════ -->
-    <header class="relative overflow-hidden bg-vPanel border border-white/5 accent-top">
-
-        <!-- Keyart bg — clearer with higher opacity -->
-        <div class="absolute inset-0 bg-cover bg-center opacity-40"
-        style="background-image:url('https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=1200&auto=format&fit=crop')"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-vDark/70 via-vDark/50 to-transparent"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-vDark/40 to-transparent"></div>
-        <div class="hero-diagonal"></div>
-
-        <!-- Online badge -->
-        <div class="absolute top-0 right-0 bg-vRed text-vDark px-3 py-1 font-mono text-[9px] font-black tracking-widest uppercase z-10">
-            Online
-        </div>
-
-        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 p-8 md:p-12">
-            <div class="space-y-4 max-w-xl">
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-vRed/10 border border-vRed/30 text-vRed font-mono text-xs uppercase tracking-widest">
-                    <span class="w-2 h-2 bg-vRed tac-pulse"></span>
-                    Your reading list
-                </div>
-                <h1 class="font-riot text-5xl md:text-6xl text-white tracking-wider uppercase leading-none">
-                    Chronicle <span class="text-vRed">Tracker</span>
-                </h1>
-                <p class="text-sm text-gray-300 leading-relaxed">
-                    Track every manhwa you're reading, rate them, and keep notes — all saved in your browser.
-                </p>
-            </div>
-
-            <!-- Stats panel -->
-            <div class="font-mono text-xs border border-white/8 bg-vDark/90 p-5 min-w-[220px] shrink-0 space-y-2">
-                <div class="flex justify-between border-b border-white/5 pb-2">
-                    <span class="text-gray-500 uppercase">Status</span>
-                    <span class="text-vGreen font-bold">Synced</span>
-                </div>
-                <div class="flex justify-between border-b border-white/5 pb-2">
-                    <span class="text-gray-500 uppercase">Total entries</span>
-                    <span id="statCount" class="text-vRed font-bold">0</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-500 uppercase">Clock</span>
-                    <span id="clockEl" class="text-vCyan">--:--:--</span>
-                </div>
-            </div>
-        </div>
-    </header>
 
     <!-- ════ FILTER + SEARCH BAR ════ -->
     <section class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -728,7 +859,7 @@
 
 </div>
 
-<!-- ════════════════════ SCRIPT ════════════════════ -->
+<!-- ════════════════════ SCRIPT (دون تغيير) ════════════════════ -->
 <script>
     (function() {
 
