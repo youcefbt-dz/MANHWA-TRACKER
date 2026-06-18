@@ -6,8 +6,7 @@
     <title>Manhwa Tracker</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com">
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
         tailwind.config = {
@@ -36,20 +35,10 @@
     </script>
 
     <style>
-        /* ── Scrollbar ── */
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f1923;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #ff4655;
-            border-radius: 0;
-        }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0f1923; }
+        ::-webkit-scrollbar-thumb { background: #ff4655; border-radius: 0; }
 
-        /* ── Body ── */
         body {
             background-color: #0f1923;
             background-image:
@@ -58,1431 +47,1238 @@
             background-attachment: fixed;
         }
 
-        /* ── Dot grid overlay ── */
         .dot-grid {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
             background-image: radial-gradient(rgba(236, 232, 225, 0.025) 1px, transparent 0);
             background-size: 28px 28px;
         }
 
-        /* ── All corners are sharp 90° (no border-radius anywhere) ── */
-        *,
-        *::before,
-        *::after {
-            border-radius: 0 !important;
-        }
+        *, *::before, *::after { border-radius: 0 !important; }
 
-        /* ── Accent line on top of sections ── */
         .accent-top::before {
-            content: '';
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
+            content: ''; display: block; position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
             background: linear-gradient(to right, #ff4655 0%, #ff465540 60%, transparent 100%);
         }
 
-        /* ── Nav link hover ── */
         .nav-link {
-            position: relative;
-            padding: 8px 16px;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #ece8e1;
-            transition: color 0.15s;
+            position: relative; padding: 8px 16px;
+            font-family: 'Rajdhani', sans-serif; font-size: 13px;
+            font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+            color: #ece8e1; transition: color 0.15s;
         }
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 16px;
-            right: 16px;
-            height: 2px;
-            background: #ff4655;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.2s ease;
+            content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
+            height: 2px; background: #ff4655; transform: scaleX(0);
+            transform-origin: left; transition: transform 0.2s ease;
         }
-        .nav-link:hover {
-            color: #ff4655;
-        }
-        .nav-link:hover::after {
-            transform: scaleX(1);
-        }
+        .nav-link:hover { color: #ff4655; }
+        .nav-link:hover::after { transform: scaleX(1); }
 
-        /* ── Filter tab ── */
         .filter-tab {
-            padding: 7px 16px;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            border: 1px solid rgba(236, 232, 225, 0.1);
-            color: #888;
-            cursor: pointer;
-            transition: all 0.15s;
+            padding: 7px 16px; font-family: 'Rajdhani', sans-serif;
+            font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+            text-transform: uppercase; border: 1px solid rgba(236, 232, 225, 0.1);
+            color: #888; cursor: pointer; transition: all 0.15s;
         }
-        .filter-tab:hover {
-            border-color: rgba(255, 70, 85, 0.4);
-            color: #ece8e1;
-        }
-        .filter-tab.active {
-            border-color: #ff4655;
-            background: rgba(255, 70, 85, 0.08);
-            color: #ff4655;
-        }
+        .filter-tab:hover { border-color: rgba(255, 70, 85, 0.4); color: #ece8e1; }
+        .filter-tab.active { border-color: #ff4655; background: rgba(255, 70, 85, 0.08); color: #ff4655; }
 
-        /* ── Form inputs ── */
         .field {
-            width: 100%;
-            background: #0f1923;
+            width: 100%; background: #0f1923;
             border: 1px solid rgba(236, 232, 225, 0.12);
-            color: #ece8e1;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 13px;
-            padding: 10px 14px;
-            outline: none;
-            transition: border-color 0.15s;
+            color: #ece8e1; font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px; padding: 10px 14px; outline: none; transition: border-color 0.15s;
         }
-        .field:focus {
-            border-color: #ff4655;
-        }
-        .field::placeholder {
-            color: #4a5568;
-        }
+        .field:focus { border-color: #ff4655; }
+        .field::placeholder { color: #4a5568; }
+        select.field { cursor: pointer; }
+        textarea.field { resize: vertical; min-height: 80px; }
 
-        select.field {
-            cursor: pointer;
-        }
-        textarea.field {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        /* ── Card ── */
         .manga-card {
             background: #15202b;
-            border: 1px solid rgba(236, 232, 225, 0.08);
+            border: 1px solid rgba(236, 232, 225, 0.07);
             cursor: pointer;
-            transition: border-color 0.2s, transform 0.15s;
+            transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
             position: relative;
+            overflow: hidden;
+        }
+        .manga-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: transparent;
+            transition: background 0.2s;
         }
         .manga-card:hover {
-            border-color: rgba(255, 70, 85, 0.5);
-            transform: translateY(-2px);
+            border-color: rgba(255, 70, 85, 0.45);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        }
+        .manga-card:hover::before {
+            background: linear-gradient(to right, #ff4655, transparent);
         }
 
-        /* ── Tier row ── */
         .tier-row {
-            border: 1px solid rgba(236, 232, 225, 0.08);
-            background: rgba(21, 32, 43, 0.6);
-            transition: border-color 0.2s;
-            overflow: hidden;
+            border: 1px solid rgba(236, 232, 225, 0.07);
+            background: rgba(21, 32, 43, 0.5);
+            transition: border-color 0.2s; overflow: hidden;
         }
-        .tier-row:hover {
-            border-color: rgba(255, 70, 85, 0.2);
-        }
+        .tier-row:hover { border-color: rgba(255, 70, 85, 0.18); }
 
-        /* ── Status dot ── */
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            flex-shrink: 0;
-        }
-
-        /* ── Star rating ── */
         .star-btn {
-            font-size: 22px;
-            color: #2d3748;
-            transition: color 0.1s, transform 0.1s;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0 2px;
+            font-size: 22px; color: #2d3748; transition: color 0.1s, transform 0.1s;
+            cursor: pointer; background: none; border: none; padding: 0 2px;
         }
-        .star-btn:hover {
-            transform: scale(1.2);
-        }
-        .star-btn.lit {
-            color: #ff4655;
-        }
+        .star-btn:hover { transform: scale(1.2); }
+        .star-btn.lit { color: #ff4655; }
 
-        /* ── Preview area ── */
         .preview-cover-wrap {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 2/3;
-            max-width: 240px;
-            margin: 0 auto;
-            background: #0f1923;
-            border: 1px solid rgba(236, 232, 225, 0.1);
-            overflow: hidden;
+            position: relative; width: 100%; aspect-ratio: 2/3;
+            max-width: 240px; margin: 0 auto; background: #0f1923;
+            border: 1px solid rgba(236, 232, 225, 0.1); overflow: hidden;
         }
 
-        /* ── Tactical pulse ── */
-        @keyframes tac-pulse {
-            0%,
-            100% {
-                opacity: 1
-            }
-            50% {
-                opacity: 0.3
-            }
-        }
-        .tac-pulse {
-            animation: tac-pulse 1.8s ease-in-out infinite;
+        @keyframes tac-pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0.3 } }
+        .tac-pulse { animation: tac-pulse 1.8s ease-in-out infinite; }
+
+        @keyframes fab-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 70, 85, 0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(255, 70, 85, 0); }
         }
 
-        /* ── Toast ── */
+        #fabBtn {
+            position: fixed; bottom: 36px; right: 36px; z-index: 999;
+            width: 72px; height: 72px; background: #ff4655; border: none;
+            cursor: pointer; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 2px;
+            transition: background 0.18s, transform 0.18s;
+            animation: fab-pulse 2.4s ease-in-out infinite;
+            box-shadow: 0 4px 28px rgba(255, 70, 85, 0.45);
+        }
+        #fabBtn:hover {
+            background: #ece8e1; transform: scale(1.1) rotate(90deg);
+            animation: none; box-shadow: 0 6px 32px rgba(255, 70, 85, 0.6);
+        }
+        #fabBtn:hover .fab-plus { color: #0f1923; }
+        #fabBtn:hover .fab-label { color: #0f1923; }
+        .fab-plus {
+            font-family: 'Anton', sans-serif; font-size: 36px; line-height: 1;
+            color: #0f1923; display: block; margin-top: 4px;
+        }
+        .fab-label {
+            font-family: 'Share Tech Mono', monospace; font-size: 8px;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: rgba(15, 25, 35, 0.75); display: block;
+        }
+
         #toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 200;
-            padding: 12px 20px;
-            background: #0f1923;
-            border: 1px solid #ff4655;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            color: #ff4655;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateY(80px);
-            opacity: 0;
+            position: fixed; bottom: 24px; right: 120px; z-index: 200;
+            padding: 12px 20px; background: #0f1923; border: 1px solid #ff4655;
+            font-family: 'Share Tech Mono', monospace; font-size: 11px;
+            font-weight: 700; color: #ff4655; text-transform: uppercase;
+            letter-spacing: 0.08em; display: flex; align-items: center; gap: 10px;
+            transform: translateY(80px); opacity: 0;
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
-        #toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        #toast.show { transform: translateY(0); opacity: 1; }
 
-        /* ── Modal ── */
         .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            background: rgba(10, 16, 22, 0.92);
-            backdrop-filter: blur(4px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
+            position: fixed; inset: 0; z-index: 100;
+            background: rgba(10, 16, 22, 0.92); backdrop-filter: blur(4px);
+            display: none; align-items: center; justify-content: center; padding: 16px;
         }
-        .modal-backdrop.open {
-            display: flex;
-        }
+        .modal-backdrop.open { display: flex; }
 
-        /* ── Roulette cover ── */
         #rouletteCover {
-            width: 120px;
-            height: 180px;
-            border: 1px solid rgba(236, 232, 225, 0.1);
-            background: #0f1923;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin: 0 auto;
+            width: 120px; height: 180px;
+            border: 1px solid rgba(236, 232, 225, 0.1); background: #0f1923;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; margin: 0 auto;
         }
 
-        /* ── Section heading ── */
         .section-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(236, 232, 225, 0.08);
+            display: flex; align-items: center; gap: 12px;
+            padding-bottom: 12px; border-bottom: 1px solid rgba(236, 232, 225, 0.08);
             margin-bottom: 24px;
         }
-        .section-label-bar {
-            width: 3px;
-            height: 22px;
-            background: #ff4655;
-            flex-shrink: 0;
-        }
+        .section-label-bar { width: 3px; height: 22px; background: #ff4655; flex-shrink: 0; }
         .section-label h2 {
-            font-family: 'Anton', sans-serif;
-            font-size: 20px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #ece8e1;
+            font-family: 'Anton', sans-serif; font-size: 20px;
+            letter-spacing: 0.1em; text-transform: uppercase; color: #ece8e1;
         }
 
-        /* ── Hero accent diagonal ── (old, now unused) */
-        .hero-diagonal {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 0 60px 60px;
-            border-color: transparent transparent rgba(255, 70, 85, 0.15) transparent;
+        .card-cover {
+            width: 56px; height: 80px; flex-shrink: 0;
+            background: #0a1520; border: 1px solid rgba(236, 232, 225, 0.07);
+            overflow: hidden; position: relative;
+        }
+        .card-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .card-cover-fallback {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        /* ── Combo badge ── */
-        .tier-badge {
-            width: 52px;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Anton', sans-serif;
-            font-size: 26px;
-            border: 2px solid currentColor;
-            flex-shrink: 0;
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 6px; font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+            border: 1px solid currentColor;
         }
 
-        /* ── Responsive ── */
-        @media (max-width: 640px) {
-            .preview-cover-wrap {
-                max-width: 160px;
-            }
-        }
-        
-        /* ══════════════ NEW HERO STYLES ══════════════ */
+        /* ════ HERO ════ */
         .hero-full {
-            position: relative;
-            width: 100%;
-            min-height: 92vh;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            border: none;
+            position: relative; width: 100%; min-height: 92vh;
+            display: flex; align-items: center; overflow: hidden;
         }
         .hero-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('https://images.unsplash.com/photo-1634828221818-503587f33d02?q=80&w=1065&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-            background-size: cover;
-            background-position: center 20%;
+            position: absolute; inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1634828221818-503587f33d02?q=80&w=1065&auto=format&fit=crop');
+            background-size: cover; background-position: center 20%;
             filter: brightness(0.5) saturate(1.3);
         }
         .hero-overlay-1 {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: linear-gradient(to right, rgba(15,25,35,0.9) 0%, rgba(15,25,35,0.4) 60%, transparent 100%);
         }
         .hero-overlay-2 {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(15,25,35,0.85) 0%, transparent 50%);
-        }
-        .hero-chara-container {
-            position: absolute;
-            right: 0;
-            top: -6%;
-            width: 55%;
-            height: 110%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 5;
-        }
-        .hero-chara {
-            position: absolute;
-            right: -2%;
-            bottom: 0;
-            height: 105%;
-            width: auto;
-            object-fit: contain;
-            object-position: right bottom;
-            opacity: 0.85;
-            filter: drop-shadow(0 0 30px rgba(255,70,85,0.15));
-        }
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 6rem 2rem 3rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 2.5rem;
-        }
-        .hero-text-area {
-            flex: 1 1 500px;
-            max-width: 650px;
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(15,25,35,1) 0%, rgba(15,25,35,0.3) 50%, transparent 100%);
         }
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255,70,85,0.1);
-            border: 1px solid rgba(255,70,85,0.35);
-            padding: 6px 18px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: #ff4655;
-            margin-bottom: 1.5rem;
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(255,70,85,0.1); border: 1px solid rgba(255,70,85,0.35);
+            padding: 6px 18px; font-family: 'Share Tech Mono', monospace;
+            font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+            text-transform: uppercase; color: #ff4655; margin-bottom: 1.5rem;
         }
-        .hero-badge-dot {
-            width: 8px; height: 8px;
+        .hero-badge-dot { width: 8px; height: 8px; background: #ff4655; animation: tac-pulse 1.8s ease-in-out infinite; }
+        .hero-title {
+            font-family: 'Anton', sans-serif; font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 1; text-transform: uppercase; letter-spacing: 0.03em;
+            color: #fff; margin-bottom: 1.2rem;
+        }
+        .hero-desc { font-size: 1rem; color: #b0b8c1; max-width: 480px; line-height: 1.7; }
+
+        .hero-content {
+            position: relative; z-index: 10; width: 100%;
+            padding: 6rem 3rem 5rem;
+            max-width: 700px;
+        }
+
+        /* ════ STATS STRIP ════ */
+        .stats-strip {
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            background: #0f1923;
+            border-top: 2px solid #ff4655;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stats-strip-inner {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 100%;
+        }
+
+        .sstat {
+            flex: 1 1 110px;
+            padding: 20px 22px 18px;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+            transition: background 0.2s;
+            cursor: default;
+        }
+        .sstat:last-child { border-right: none; }
+        .sstat:hover { background: rgba(255,255,255,0.025); }
+
+        /* top accent appears on hover */
+        .sstat::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.25s ease;
+        }
+        .sstat:hover::after { transform: scaleX(1); }
+        .sstat.ac-red::after    { background: #ff4655; }
+        .sstat.ac-cyan::after   { background: #00d4e0; }
+        .sstat.ac-green::after  { background: #00c97a; }
+        .sstat.ac-dim::after    { background: #6b7280; }
+        .sstat.ac-gold::after   { background: #e8c84a; }
+        .sstat.ac-purple::after { background: #a78bfa; }
+
+        /* left divider on clock cell */
+        .sstat-clock {
+            flex: 0 0 auto;
+            min-width: 140px;
+            border-right: 1px solid rgba(255,70,85,0.15) !important;
+            background: rgba(255,70,85,0.03);
+        }
+
+        .sstat-lbl {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #5a7a8a;
+            margin-bottom: 7px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .sstat-dot {
+            width: 5px; height: 5px;
             background: #ff4655;
+            flex-shrink: 0;
             animation: tac-pulse 1.8s ease-in-out infinite;
         }
-        .hero-title {
+
+        .sstat-val {
             font-family: 'Anton', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: 28px;
             line-height: 1;
-            text-transform: uppercase;
             letter-spacing: 0.03em;
-            color: #fff;
-            margin-bottom: 1.2rem;
+            margin-bottom: 5px;
         }
-        .hero-desc {
-            font-size: 1rem;
-            color: #b0b8c1;
-            max-width: 480px;
-            line-height: 1.7;
-        }
-        .hero-stats-panel {
-            flex-shrink: 0;
-            background: rgba(15,25,35,0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(236,232,225,0.08);
-            padding: 1.5rem 1.8rem;
-            min-width: 230px;
+
+        .sstat-clock-time {
             font-family: 'Share Tech Mono', monospace;
-        }
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding: 0.65rem 0;
-        }
-        .stat-label {
-            color: #6b7280;
-            text-transform: uppercase;
+            font-size: 17px;
             letter-spacing: 0.08em;
-            font-size: 11px;
+            color: #ff4655;
+            margin-bottom: 5px;
+            line-height: 1;
         }
-        .stat-value {
-            font-weight: 700;
-            font-size: 13px;
+
+        .sstat-sub {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px;
+            color: #4a6070;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* separator line between hero + stats */
+        .hero-stats-divider {
+            width: 100%;
+            height: 0;
+            position: relative;
+        }
+
+        @media (max-width: 640px) {
+            .preview-cover-wrap { max-width: 160px; }
+            #fabBtn { width: 62px; height: 62px; bottom: 24px; right: 20px; }
+            .fab-plus { font-size: 30px; }
+            .hero-content { padding: 4rem 1.5rem 4rem; }
+            .sstat { flex: 1 1 80px; padding: 14px 14px 12px; }
+            .sstat-val { font-size: 22px; }
         }
     </style>
 </head>
-<body class="text-vCream font-sans min-h-screen pb-20 selection:bg-vRed selection:text-vDark">
+<body class="text-vCream font-sans min-h-screen pb-28 selection:bg-vRed selection:text-vDark">
 
-    <div class="dot-grid"></div>
+<div class="dot-grid"></div>
 
-    <div class="relative z-10 flex flex-col min-h-screen">
+<div class="relative z-10 flex flex-col min-h-screen">
 
-        <!-- ════ NAV (شفاف، يعلو الهيرو) ════ -->
-        <nav class="sticky top-0 z-50 bg-transparent backdrop-blur-md border-b border-white/5">
-            <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+    <!-- ════ NAV ════ -->
+    <nav class="sticky top-0 z-50 bg-transparent backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 flex items-center justify-center">
+                    <svg width="40" height="40" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="mangaRed" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff4d4d"/>
+                                <stop offset="100%" stop-color="#c4001a"/>
+                            </linearGradient>
+                        </defs>
+                        <g fill="url(#mangaRed)">
+                            <path d="M80 120 L220 120 L170 250 L256 380 L200 420 L90 260 Z"/>
+                            <path d="M432 120 L292 120 L342 250 L256 380 L312 420 L422 260 Z"/>
+                            <path d="M236 90 L276 90 L296 180 L256 310 L216 180 Z"/>
+                        </g>
+                    </svg>
+                </div>
+                <span class="font-riot text-xl tracking-widest text-white uppercase">Manhwa <span class="text-vRed">Tracker</span></span>
+            </a>
 
-                <!-- Logo -->
-                <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 flex items-center justify-center">
-                        <svg width="40" height="40" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="mangaRed" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#ff4d4d" />
-                                    <stop offset="100%" stop-color="#c4001a" />
-                                </linearGradient>
-                            </defs>
-                            <g fill="url(#mangaRed)">
-                                <path d="M80 120 L220 120 L170 250 L256 380 L200 420 L90 260 Z" />
-                                <path d="M432 120 L292 120 L342 250 L256 380 L312 420 L422 260 Z" />
-                                <path d="M236 90 L276 90 L296 180 L256 310 L216 180 Z" />
-                            </g>
-                        </svg>
-                    </div>
-                    <div>
-                        <span class="font-riot text-xl tracking-widest text-white uppercase">Manhwa <span class="text-vRed">Tracker</span></span>
-                    </div>
-                </a>
-
-                <!-- Nav links -->
-                <div class="flex items-center gap-1">
-                    <a href="#listSection" class="nav-link">Library</a>
-                    <a href="#addSection" class="nav-link">Add Entry</a>
-                    <div class="w-px h-5 bg-white/10 mx-1"></div>
-
-                    <!-- Audio toggle -->
-                    <button id="audioBtn" onclick="toggleAudio()" title="Toggle sound"
+            <div class="flex items-center gap-1">
+                <a href="#listSection" class="nav-link">Library</a>
+                <a href="#addSection" class="nav-link">Add Entry</a>
+                <div class="w-px h-5 bg-white/10 mx-1"></div>
+                <button id="audioBtn" onclick="toggleAudio()" title="Toggle sound"
                     class="p-2 border border-white/10 text-vRed hover:border-vRed transition-all">
-                    <svg id="iconOn"  class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 18.75V5.25L7.75 9.5H4.5v5h3.25L12 18.75z"/></svg>
+                    <svg id="iconOn" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 18.75V5.25L7.75 9.5H4.5v5h3.25L12 18.75z"/></svg>
                     <svg id="iconOff" class="w-4 h-4 hidden text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
                 </button>
-
-                <!-- Shuffle -->
                 <button onclick="openRoulette()"
-                class="px-4 py-2 bg-vRed hover:bg-vCream text-vDark font-riot text-xs tracking-widest transition-all duration-200 shadow-[0_4px_14px_rgba(255,70,85,0.25)]">
-                Shuffle
-            </button>
+                    class="px-4 py-2 bg-vRed hover:bg-vCream text-vDark font-riot text-xs tracking-widest transition-all duration-200 shadow-[0_4px_14px_rgba(255,70,85,0.25)]">
+                    Shuffle
+                </button>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- ════════════════ HERO FULLSCREEN (جديد) ════════════════ -->
-<section class="hero-full">
-    <!-- خلفية بانورامية -->
-    <div class="hero-bg"></div>
+    <!-- ════ HERO ════ -->
+    <section class="hero-full">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay-1"></div>
+        <div class="hero-overlay-2"></div>
 
-    <!-- طبقات التدرج لقراءة النص -->
-    <div class="hero-overlay-1"></div>
-    <div class="hero-overlay-2"></div>
-
-
-    <!-- المحتوى النصي والستاتس -->
-    <div class="hero-content">
-        <div class="hero-text-area">
+        <div class="hero-content">
             <div class="hero-badge">
                 <span class="hero-badge-dot"></span>
                 Your reading list
             </div>
-            <h1 class="hero-title">
-                Chronicle <span class="text-vRed">Tracker</span>
-            </h1>
-            <p class="hero-desc">
-                Track every manhwa you're reading, rate them, and keep notes — all saved in your browser.
-            </p>
+            <h1 class="hero-title">Chronicle <span class="text-vRed">Tracker</span></h1>
+            <p class="hero-desc">Track every manhwa you're reading, rate them, and keep notes — all saved in your browser.</p>
         </div>
+    </section>
 
-        <div class="hero-stats-panel">
-            <div class="stat-row">
-                <span class="stat-label">Status</span>
-                <span class="stat-value text-vGreen">Synced</span>
+    <!-- ════ STATS STRIP (standalone, below hero) ════ -->
+    <div class="stats-strip">
+        <div class="stats-strip-inner">
+
+            <!-- Clock -->
+            <div class="sstat sstat-clock">
+                <div class="sstat-lbl">
+                    <span class="sstat-dot"></span>
+                    Live
+                </div>
+                <div class="sstat-clock-time" id="clockEl">--:--:--</div>
+                <div class="sstat-sub">local time</div>
             </div>
-            <div class="stat-row">
-                <span class="stat-label">Total entries</span>
-                <span id="statCount" class="stat-value text-vRed">0</span>
+
+            <!-- Total -->
+            <div class="sstat ac-red">
+                <div class="sstat-lbl">Total</div>
+                <div class="sstat-val" style="color:#ece8e1;"><span id="statTotal">0</span></div>
+                <div class="sstat-sub">tracked</div>
             </div>
-            <div class="stat-row !border-none">
-                <span class="stat-label">Clock</span>
-                <span id="clockEl" class="stat-value text-vCyan">--:--:--</span>
+
+            <!-- Reading -->
+            <div class="sstat ac-cyan">
+                <div class="sstat-lbl">Reading</div>
+                <div class="sstat-val" style="color:#00d4e0;"><span id="statReading">0</span></div>
+                <div class="sstat-sub">in progress</div>
             </div>
+
+            <!-- Completed -->
+            <div class="sstat ac-green">
+                <div class="sstat-lbl">Completed</div>
+                <div class="sstat-val" style="color:#00c97a;"><span id="statCompleted">0</span></div>
+                <div class="sstat-sub">finished</div>
+            </div>
+
+            <!-- Dropped -->
+            <div class="sstat ac-dim">
+                <div class="sstat-lbl">Dropped</div>
+                <div class="sstat-val" style="color:#6b7280;"><span id="statDropped">0</span></div>
+                <div class="sstat-sub">abandoned</div>
+            </div>
+
+            <!-- Avg Rating -->
+            <div class="sstat ac-gold">
+                <div class="sstat-lbl">Avg rating</div>
+                <div class="sstat-val" style="color:#e8c84a; display:flex; align-items:baseline; gap:4px;">
+                    <span id="statAvg">—</span>
+                    <span style="font-family:'Share Tech Mono',monospace; font-size:11px; color:#4a6070; margin-bottom:2px;">/5</span>
+                </div>
+                <div class="sstat-sub">mean score</div>
+            </div>
+
+            <!-- S-Tier -->
+            <div class="sstat ac-red">
+                <div class="sstat-lbl">S-Tier</div>
+                <div class="sstat-val" style="color:#ff4655;"><span id="statSTier">0</span></div>
+                <div class="sstat-sub">masterpieces</div>
+            </div>
+
+            <!-- Chapters -->
+            <div class="sstat ac-purple" style="border-right:none;">
+                <div class="sstat-lbl">Chapters</div>
+                <div class="sstat-val" style="color:#a78bfa;"><span id="statChapters">0</span></div>
+                <div class="sstat-sub">total read</div>
+            </div>
+
         </div>
     </div>
-</section>
 
-<!-- ════ المحتوى الأساسي (بدون الهيرو القديم) ════ -->
-<main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-8 py-10 space-y-14">
+    <!-- ════ MAIN ════ -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-8 py-10 space-y-14">
 
-    <!-- ════ FILTER + SEARCH BAR ════ -->
-    <section class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <!-- Filter tabs -->
-        <div class="flex flex-wrap items-center gap-1">
-            <button class="filter-tab active" onclick="setFilter('All')">All</button>
-            <button class="filter-tab" onclick="setFilter('Reading')">Reading</button>
-            <button class="filter-tab" onclick="setFilter('Completed')">Completed</button>
-            <button class="filter-tab" onclick="setFilter('Dropped')">Dropped</button>
-            <button class="filter-tab" onclick="setFilter('Plan to Read')">Plan to read</button>
-        </div>
-
-        <!-- Search + sort -->
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-            <select id="sortEl" onchange="renderList()" class="field w-full sm:w-auto text-xs">
-                <option value="added-desc">Newest first</option>
-                <option value="added-asc">Oldest first</option>
-                <option value="rating-desc">Highest rated</option>
-                <option value="rating-asc">Lowest rated</option>
-                <option value="title-asc">A → Z</option>
-            </select>
-            <div class="relative">
-                <input id="searchEl" type="text" placeholder="Search..." oninput="renderList()"
-                class="field w-full sm:w-52 pl-8 text-xs" />
-                <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-                </svg>
+        <!-- FILTER + SEARCH -->
+        <section class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-1">
+                <button class="filter-tab active" onclick="setFilter('All')">All</button>
+                <button class="filter-tab" onclick="setFilter('Reading')">Reading</button>
+                <button class="filter-tab" onclick="setFilter('Completed')">Completed</button>
+                <button class="filter-tab" onclick="setFilter('Dropped')">Dropped</button>
+                <button class="filter-tab" onclick="setFilter('Plan to Read')">Plan to read</button>
             </div>
-        </div>
-    </section>
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+                <select id="sortEl" onchange="renderList()" class="field w-full sm:w-auto text-xs">
+                    <option value="added-desc">Newest first</option>
+                    <option value="added-asc">Oldest first</option>
+                    <option value="rating-desc">Highest rated</option>
+                    <option value="rating-asc">Lowest rated</option>
+                    <option value="title-asc">A → Z</option>
+                </select>
+                <div class="relative">
+                    <input id="searchEl" type="text" placeholder="Search..." oninput="renderList()"
+                        class="field w-full sm:w-52 pl-8 text-xs" />
+                    <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
 
-    <!-- ════ TIER LIST ════ -->
-    <section id="listSection" class="space-y-3">
-        <div class="section-label">
-            <div class="section-label-bar"></div>
-            <h2>Library</h2>
-            <span class="font-mono text-xs text-gray-600 ml-auto hidden md:block">// sorted by tier rank, then sub-rating (20)</span>
-        </div>
-        <div id="listContainer" class="space-y-3"></div>
-    </section>
+        <!-- ════ LIBRARY ════ -->
+        <section id="listSection" class="space-y-3">
+            <div class="section-label">
+                <div class="section-label-bar"></div>
+                <h2>Library</h2>
+                <span class="font-mono text-xs text-gray-600 ml-auto hidden md:block">// tier → sub-rating</span>
+            </div>
+            <div id="listContainer" class="space-y-4"></div>
+        </section>
 
-    <!-- ════ ADD / EDIT FORM + PREVIEW ════ -->
-    <section id="addSection" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- ════ ADD/EDIT FORM ════ -->
+        <section id="addSection" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-        <!-- ── Form ── -->
-        <div class="lg:col-span-7 bg-vPanel border border-white/8 p-6 md:p-8 relative space-y-6 transition-colors hover:border-vRed/20 accent-top">
-            <!-- Corner marks -->
-            <span class="absolute top-2 left-2 text-[10px] text-gray-700 font-mono select-none">+</span>
-            <span class="absolute top-2 right-2 text-[10px] text-gray-700 font-mono select-none">+</span>
-            <span class="absolute bottom-2 left-2 text-[10px] text-gray-700 font-mono select-none">+</span>
-            <span class="absolute bottom-2 right-2 text-[10px] text-gray-700 font-mono select-none">+</span>
+            <div class="lg:col-span-7 bg-vPanel border border-white/8 p-6 md:p-8 relative space-y-6 transition-colors hover:border-vRed/20 accent-top">
+                <span class="absolute top-2 left-2 text-[10px] text-gray-700 font-mono select-none">+</span>
+                <span class="absolute top-2 right-2 text-[10px] text-gray-700 font-mono select-none">+</span>
+                <span class="absolute bottom-2 left-2 text-[10px] text-gray-700 font-mono select-none">+</span>
+                <span class="absolute bottom-2 right-2 text-[10px] text-gray-700 font-mono select-none">+</span>
 
-            <div class="flex justify-between items-center border-b border-white/8 pb-3">
-                <h3 id="formTitle" class="font-riot text-lg text-white tracking-wide flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 bg-vRed tac-pulse"></span> Add entry
-                </h3>
-                <button id="cancelEditBtn" onclick="resetForm()" class="hidden text-xs font-mono text-vRed hover:underline">
-                    Cancel edit
+                <div class="flex justify-between items-center border-b border-white/8 pb-3">
+                    <h3 id="formTitle" class="font-riot text-lg text-white tracking-wide flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 bg-vRed tac-pulse"></span> Add entry
+                    </h3>
+                    <button id="cancelEditBtn" onclick="resetForm()" class="hidden text-xs font-mono text-vRed hover:underline">
+                        Cancel edit
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="sm:col-span-2 space-y-1.5">
+                        <label class="block font-mono text-[11px] text-vRed font-bold tracking-wider uppercase">Title *</label>
+                        <input id="fTitle" type="text" placeholder="e.g. Solo Leveling, Doom Breaker…" class="field" />
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Chapter read *</label>
+                        <input id="fChapter" type="number" placeholder="0" min="0" class="field" />
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Status</label>
+                        <select id="fStatus" class="field">
+                            <option value="Reading">Reading</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Dropped">Dropped</option>
+                            <option value="Plan to Read">Plan to read</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-2 space-y-1.5">
+                        <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Cover image</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div onclick="document.getElementById('coverFile').click()"
+                                class="border border-dashed border-vRed/30 hover:border-vRed hover:bg-vRed/5 p-4 text-center cursor-pointer transition-all min-h-[80px] flex flex-col items-center justify-center gap-1">
+                                <span class="font-tactical text-xs text-vRed font-bold tracking-wider">Upload image</span>
+                                <span class="text-[10px] text-gray-500 font-mono">PNG / JPG, max 2 MB</span>
+                                <input type="file" id="coverFile" accept="image/*" class="hidden" onchange="handleFileUpload(event)" />
+                            </div>
+                            <div class="space-y-1.5">
+                                <span class="text-[10px] font-mono text-gray-500">Or paste image URL:</span>
+                                <input id="coverUrl" type="url" placeholder="https://example.com/cover.jpg"
+                                    oninput="handleUrlInput()" class="field text-xs" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Star Rating (Tier) *</label>
+                        <div id="starsRow" class="flex items-center gap-1">
+                            <button class="star-btn" onclick="setStarRating(1)">★</button>
+                            <button class="star-btn" onclick="setStarRating(2)">★</button>
+                            <button class="star-btn" onclick="setStarRating(3)">★</button>
+                            <button class="star-btn" onclick="setStarRating(4)">★</button>
+                            <button class="star-btn" onclick="setStarRating(5)">★</button>
+                        </div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">
+                            Sub Rating (0-20) <span class="text-vCyan">— orders within tier</span>
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input type="range" id="subRatingSlider" min="0" max="20" value="0" step="1"
+                                oninput="document.getElementById('subRatingVal').textContent = this.value; updateSubRating()"
+                                class="flex-1 h-1 bg-vDark accent-vRed cursor-pointer" />
+                            <span id="subRatingVal" class="font-mono text-vCyan text-lg min-w-[2rem] text-center">0</span>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2 space-y-1.5">
+                        <div id="tierDisplay" class="border border-white/10 py-2.5 text-center font-riot text-xs text-gray-600 tracking-widest transition-all">
+                            — Select rating —
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2 space-y-1.5">
+                        <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Notes</label>
+                        <textarea id="fNotes" rows="3" placeholder="Characters, story arc, personal thoughts…" class="field"></textarea>
+                    </div>
+                </div>
+
+                <button id="submitBtn" onclick="submitForm()"
+                    class="w-full py-4 bg-vRed hover:bg-vCream text-vDark font-riot text-sm tracking-widest transition-all duration-200 shadow-[0_4px_20px_rgba(255,70,85,0.2)]">
+                    Add to library
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-
-                <!-- Title -->
-                <div class="sm:col-span-2 space-y-1.5">
-                    <label class="block font-mono text-[11px] text-vRed font-bold tracking-wider uppercase">Title *</label>
-                    <input id="fTitle" type="text" placeholder="e.g. Solo Leveling, Doom Breaker…" class="field" />
-                </div>
-
-                <!-- Chapter -->
-                <div class="space-y-1.5">
-                    <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Chapter read *</label>
-                    <input id="fChapter" type="number" placeholder="0" min="0" class="field" />
-                </div>
-
-                <!-- Status -->
-                <div class="space-y-1.5">
-                    <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Status</label>
-                    <select id="fStatus" class="field">
-                        <option value="Reading">Reading</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Dropped">Dropped</option>
-                        <option value="Plan to Read">Plan to read</option>
-                    </select>
-                </div>
-
-                <!-- Cover -->
-                <div class="sm:col-span-2 space-y-1.5">
-                    <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Cover image</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div onclick="document.getElementById('coverFile').click()"
-                        class="border border-dashed border-vRed/30 hover:border-vRed hover:bg-vRed/5 p-4 text-center cursor-pointer transition-all min-h-[80px] flex flex-col items-center justify-center gap-1">
-                        <span class="font-tactical text-xs text-vRed font-bold tracking-wider">Upload image</span>
-                        <span class="text-[10px] text-gray-500 font-mono">PNG / JPG, max 2 MB</span>
-                        <input type="file" id="coverFile" accept="image/*" class="hidden" onchange="handleFileUpload(event)" />
+            <!-- RIGHT COLUMN -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                <div class="space-y-5">
+                    <div class="preview-cover-wrap">
+                        <img id="pvCover" class="w-full h-full object-cover hidden" src="" alt="cover" />
+                        <div id="pvCoverFallback" class="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                            <div class="absolute top-2 left-2 w-3 h-3 border-t border-l border-vCyan/30"></div>
+                            <div class="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-vCyan/30"></div>
+                            <span class="font-riot text-3xl text-vRed/15 select-none">ART</span>
+                            <span class="font-mono text-[9px] text-gray-700 uppercase tracking-widest">No cover yet</span>
+                        </div>
                     </div>
-                    <div class="space-y-1.5">
-                        <span class="text-[10px] font-mono text-gray-500">Or paste image URL:</span>
-                        <input id="coverUrl" type="url" placeholder="https://example.com/cover.jpg"
-                        oninput="handleUrlInput()" class="field text-xs" />
+                    <div class="space-y-1">
+                        <h2 id="pvTitle" class="font-riot text-2xl text-white uppercase tracking-wide leading-tight min-h-[2rem]">&nbsp;</h2>
+                        <div class="flex items-center gap-3">
+                            <span id="pvStatus" class="font-mono text-[10px] text-gray-500 uppercase tracking-widest">No status</span>
+                            <span class="text-gray-700">·</span>
+                            <span id="pvChapter" class="font-mono text-xs text-vCyan font-bold">Ch. —</span>
+                        </div>
                     </div>
+                    <div class="flex items-center gap-3">
+                        <div id="pvStars" class="text-vRed text-xl tracking-wider">☆☆☆☆☆</div>
+                        <span id="pvSubRating" class="font-mono text-xs text-vCyan bg-vDark/80 px-2 py-0.5 border border-white/10">0/20</span>
+                    </div>
+                    <p id="pvNotes" class="text-sm text-gray-400 leading-relaxed italic line-clamp-4 min-h-[1.5rem]">&nbsp;</p>
+                    <div class="h-px bg-white/5"></div>
+                </div>
+
+                <div class="bg-vPanel border border-white/8 p-5 space-y-3">
+                    <span class="font-mono text-[11px] text-white font-bold block border-b border-white/8 pb-2 uppercase tracking-wider">Backup</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="exportData()"
+                            class="py-2.5 border border-white/10 hover:border-vRed bg-vDark hover:bg-vRed/8 font-mono text-xs font-bold text-vRed transition-all text-center">
+                            Export JSON
+                        </button>
+                        <button onclick="document.getElementById('importFile').click()"
+                            class="py-2.5 border border-white/10 hover:border-vCyan bg-vDark hover:bg-vCyan/8 font-mono text-xs font-bold text-vCyan transition-all text-center">
+                            Import JSON
+                        </button>
+                        <input type="file" id="importFile" accept=".json" class="hidden" onchange="importData(event)" />
+                    </div>
+                    <p class="text-[10px] font-mono text-gray-600 text-center">Data is stored locally in your browser</p>
                 </div>
             </div>
+        </section>
+    </main>
 
-            <!-- Star Rating (1-5) for tier -->
-            <div class="space-y-1.5">
-                <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Star Rating (Tier) *</label>
-                <div id="starsRow" class="flex items-center gap-1">
-                    <button class="star-btn" onclick="setStarRating(1)">★</button>
-                    <button class="star-btn" onclick="setStarRating(2)">★</button>
-                    <button class="star-btn" onclick="setStarRating(3)">★</button>
-                    <button class="star-btn" onclick="setStarRating(4)">★</button>
-                    <button class="star-btn" onclick="setStarRating(5)">★</button>
+    <!-- ════ ROULETTE MODAL ════ -->
+    <div id="rouletteModal" class="modal-backdrop">
+        <div class="border-2 border-vRed bg-vPanel max-w-sm w-full p-6 space-y-5 shadow-[0_0_40px_rgba(255,70,85,0.2)] relative">
+            <div class="flex justify-between items-center border-b border-white/8 pb-3">
+                <span class="font-riot text-sm text-vRed tracking-widest uppercase">Random pick</span>
+                <button onclick="closeRoulette()" class="font-mono text-xs text-gray-400 hover:text-vRed">Close</button>
+            </div>
+            <div class="text-center space-y-4">
+                <p class="text-[11px] font-mono text-gray-500 uppercase tracking-wider">Picking a random title from your library…</p>
+                <div id="rouletteCover">
+                    <span class="font-riot text-3xl text-vRed/20 select-none">?</span>
                 </div>
+                <h3 id="rouletteTitle" class="font-riot text-base text-vCyan tracking-wider uppercase h-6 overflow-hidden">— —</h3>
             </div>
-
-            <!-- Sub Rating (0-20) for internal order -->
-            <div class="space-y-1.5">
-                <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">
-                    Sub Rating (0-20) <span class="text-vCyan">— orders within tier</span>
-                </label>
-                <div class="flex items-center gap-3">
-                    <input type="range" id="subRatingSlider" min="0" max="20" value="0" step="1"
-                           oninput="document.getElementById('subRatingVal').textContent = this.value; updateSubRating()"
-                           class="flex-1 h-1 bg-vDark accent-vRed cursor-pointer" />
-                    <span id="subRatingVal" class="font-mono text-vCyan text-lg min-w-[2rem] text-center">0</span>
-                </div>
-            </div>
-
-            <!-- Tier display -->
-            <div class="space-y-1.5 flex flex-col justify-end">
-                <div id="tierDisplay" class="border border-white/10 py-2.5 text-center font-riot text-xs text-gray-600 tracking-widest transition-all">
-                    — Select rating —
-                </div>
-            </div>
-
-            <!-- Notes -->
-            <div class="sm:col-span-2 space-y-1.5">
-                <label class="block font-mono text-[11px] text-gray-400 font-bold tracking-wider uppercase">Notes</label>
-                <textarea id="fNotes" rows="3" placeholder="Characters, story arc, personal thoughts…" class="field"></textarea>
-            </div>
+            <button id="rollBtn" onclick="spinRoulette()"
+                class="w-full py-3 bg-vRed hover:bg-vCream text-vDark font-riot text-sm tracking-widest transition-all">
+                Roll
+            </button>
         </div>
-
-        <button id="submitBtn" onclick="submitForm()"
-        class="w-full py-4 bg-vRed hover:bg-vCream text-vDark font-riot text-sm tracking-widest transition-all duration-200 shadow-[0_4px_20px_rgba(255,70,85,0.2)]">
-        Add to library
-    </button>
-</div>
-
-<!-- ── Right column ── -->
-<div class="lg:col-span-5 flex flex-col gap-6">
-
-    <!-- ──────────────────────────────────────────
-    PREVIEW  (no scan line, clean & clear, sharp corners)
-    ────────────────────────────────────────── -->
-    <div class="space-y-5">
-
-        <!-- Cover — large, prominent, no scan line -->
-        <div class="preview-cover-wrap">
-            <img id="pvCover" class="w-full h-full object-cover hidden" src="" alt="cover" />
-            <div id="pvCoverFallback" class="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                <!-- Corner marks -->
-                <div class="absolute top-2 left-2 w-3 h-3 border-t border-l border-vCyan/30"></div>
-                <div class="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-vCyan/30"></div>
-                <span class="font-riot text-3xl text-vRed/15 select-none">ART</span>
-                <span class="font-mono text-[9px] text-gray-700 uppercase tracking-widest">No cover yet</span>
-            </div>
-        </div>
-
-        <!-- Title — large and styled, no placeholder text -->
-        <div class="space-y-1">
-            <h2 id="pvTitle" class="font-riot text-2xl text-white uppercase tracking-wide leading-tight min-h-[2rem]">
-                &nbsp;
-            </h2>
-            <div class="flex items-center gap-3">
-                <span id="pvStatus" class="font-mono text-[10px] text-gray-500 uppercase tracking-widest">No status</span>
-                <span class="text-gray-700">·</span>
-                <span id="pvChapter" class="font-mono text-xs text-vCyan font-bold">Ch. —</span>
-            </div>
-        </div>
-
-        <!-- Star rating + sub rating -->
-        <div class="flex items-center gap-3">
-            <div id="pvStars" class="text-vRed text-xl tracking-wider">☆☆☆☆☆</div>
-            <span id="pvSubRating" class="font-mono text-xs text-vCyan bg-vDark/80 px-2 py-0.5 border border-white/10">0/20</span>
-        </div>
-
-        <!-- Notes -->
-        <p id="pvNotes" class="text-sm text-gray-400 leading-relaxed italic line-clamp-4 min-h-[1.5rem]">
-            &nbsp;
-        </p>
-
-        <!-- Thin divider -->
-        <div class="h-px bg-white/5"></div>
     </div>
 
-    <!-- ── Backup tools ── -->
-    <div class="bg-vPanel border border-white/8 p-5 space-y-3">
-        <span class="font-mono text-[11px] text-white font-bold block border-b border-white/8 pb-2 uppercase tracking-wider">Backup</span>
-        <div class="grid grid-cols-2 gap-2">
-            <button onclick="exportData()"
-            class="py-2.5 border border-white/10 hover:border-vRed bg-vDark hover:bg-vRed/8 font-mono text-xs font-bold text-vRed transition-all text-center">
-            Export JSON
-        </button>
-        <button onclick="document.getElementById('importFile').click()"
-        class="py-2.5 border border-white/10 hover:border-vCyan bg-vDark hover:bg-vCyan/8 font-mono text-xs font-bold text-vCyan transition-all text-center">
-        Import JSON
-    </button>
-    <input type="file" id="importFile" accept=".json" class="hidden" onchange="importData(event)" />
-</div>
-<p class="text-[10px] font-mono text-gray-600 text-center">Data is stored locally in your browser</p>
-</div>
-</div>
-</section>
-
-</main>
-
-<!-- ════ ROULETTE MODAL ════ -->
-<div id="rouletteModal" class="modal-backdrop">
-    <div class="border-2 border-vRed bg-vPanel max-w-sm w-full p-6 space-y-5 shadow-[0_0_40px_rgba(255,70,85,0.2)] relative">
-        <div class="flex justify-between items-center border-b border-white/8 pb-3">
-            <span class="font-riot text-sm text-vRed tracking-widest uppercase">Random pick</span>
-            <button onclick="closeRoulette()" class="font-mono text-xs text-gray-400 hover:text-vRed">Close</button>
-        </div>
-
-        <div class="text-center space-y-4">
-            <p class="text-[11px] font-mono text-gray-500 uppercase tracking-wider">Picking a random title from your library…</p>
-
-            <div id="rouletteCover">
-                <span class="font-riot text-3xl text-vRed/20 select-none">?</span>
+    <!-- ════ DELETE MODAL ════ -->
+    <div id="deleteModal" class="modal-backdrop">
+        <div class="border border-vRed bg-vPanel max-w-sm w-full p-6 space-y-5 text-center">
+            <h4 class="font-riot text-lg text-vRed tracking-widest uppercase">Delete entry?</h4>
+            <p class="text-sm text-gray-300">
+                Remove <span id="deleteName" class="text-white font-bold">—</span> from your library? This can't be undone.
+            </p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()"
+                    class="flex-1 py-2.5 border border-white/10 text-gray-400 font-mono text-xs hover:bg-white/5 transition-all">
+                    Cancel
+                </button>
+                <button id="confirmDeleteBtn"
+                    class="flex-1 py-2.5 bg-vRed text-vDark font-riot text-xs hover:bg-vCream transition-all">
+                    Delete
+                </button>
             </div>
-
-            <h3 id="rouletteTitle" class="font-riot text-base text-vCyan tracking-wider uppercase h-6 overflow-hidden">
-                — —
-            </h3>
         </div>
+    </div>
 
-        <button id="rollBtn" onclick="spinRoulette()"
-        class="w-full py-3 bg-vRed hover:bg-vCream text-vDark font-riot text-sm tracking-widest transition-all">
-        Roll
+    <!-- ════ TOAST ════ -->
+    <div id="toast">
+        <span class="w-2 h-2 bg-vRed tac-pulse"></span>
+        <span id="toastText">—</span>
+    </div>
+
+    <!-- ════ FAB ════ -->
+    <button id="fabBtn" onclick="scrollToAdd()" title="Add new entry" aria-label="Add new manhwa entry">
+        <span class="fab-plus">+</span>
+        <span class="fab-label">Add</span>
     </button>
-</div>
-</div>
-
-<!-- ════ DELETE CONFIRM MODAL ════ -->
-<div id="deleteModal" class="modal-backdrop">
-    <div class="border border-vRed bg-vPanel max-w-sm w-full p-6 space-y-5 text-center">
-        <h4 class="font-riot text-lg text-vRed tracking-widest uppercase">Delete entry?</h4>
-        <p class="text-sm text-gray-300">
-            Remove <span id="deleteName" class="text-white font-bold">—</span> from your library? This can't be undone.
-        </p>
-        <div class="flex gap-3">
-            <button onclick="closeDeleteModal()"
-            class="flex-1 py-2.5 border border-white/10 text-gray-400 font-mono text-xs hover:bg-white/5 transition-all">
-            Cancel
-        </button>
-        <button id="confirmDeleteBtn"
-        class="flex-1 py-2.5 bg-vRed text-vDark font-riot text-xs hover:bg-vCream transition-all">
-        Delete
-    </button>
-</div>
-</div>
-</div>
-
-<!-- ════ TOAST ════ -->
-<div id="toast">
-    <span class="w-2 h-2 bg-vRed tac-pulse"></span>
-    <span id="toastText">—</span>
-</div>
 
 </div>
 
-<!-- ════════════════════ SCRIPT (دون تغيير) ════════════════════ -->
 <script>
-    (function() {
+(function() {
 
-        /* ────── Constants ────── */
-        const SK = 'manhwatracker_v3'; // bumped version to avoid conflicts
+    const SK = 'manhwatracker_v3';
+    const TIERS = ['S', 'A', 'B', 'C', 'D', 'E'];
+    const TIER_COLORS = { S:'#ff4655', A:'#e8c84a', B:'#00d4e0', C:'#00c97a', D:'#a78bfa', E:'#6b7280' };
+    const TIER_LABELS = { S:'S — Masterpiece', A:'A — Excellent', B:'B — Great', C:'C — Decent', D:'D — Average', E:'E — Not for me' };
+    const TIER_BG = {
+        S: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop',
+        A: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop',
+        B: 'https://images.unsplash.com/photo-1514894780063-d402f290ca63?q=80&w=600&auto=format&fit=crop',
+        C: 'https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?q=80&w=600&auto=format&fit=crop',
+        D: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop',
+        E: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop'
+    };
 
-        const TIERS = ['S', 'A', 'B', 'C', 'D', 'E'];
+    let list = [], starRating = 0, subRating = 0, cover = null, editId = null, delId = null;
+    let filter = 'All', audioOn = true, spinning = false, ac = null;
 
-        const TIER_COLORS = {
-            S: '#ff4655',
-            A: '#e8c84a',
-            B: '#00d4e0',
-            C: '#00c97a',
-            D: '#a78bfa',
-            E: '#6b7280'
-        };
-        const TIER_LABELS = {
-            S: 'S — Masterpiece',
-            A: 'A — Excellent',
-            B: 'B — Great',
-            C: 'C — Decent',
-            D: 'D — Average',
-            E: 'E — Not for me'
-        };
-        const TIER_BG = {
-            S: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop',
-            A: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop',
-            B: 'https://images.unsplash.com/photo-1514894780063-d402f290ca63?q=80&w=600&auto=format&fit=crop',
-            C: 'https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?q=80&w=600&auto=format&fit=crop',
-            D: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop',
-            E: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop'
-        };
+    /* ── FAB scroll ── */
+    window.scrollToAdd = function() {
+        beep('click');
+        document.getElementById('addSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => document.getElementById('fTitle').focus(), 600);
+    };
 
-        /* ────── State ────── */
-        let list = [];
-        let starRating = 0;        // 1-5 for tier
-        let subRating = 0;         // 0-20 for internal order
-        let cover = null;
-        let editId = null;
-        let delId = null;
-        let filter = 'All';
-        let audioOn = true;
-        let spinning = false;
-
-        /* ────── Audio ────── */
-        let ac = null;
-
-        function beep(type) {
-            if (!audioOn) return;
-            try {
-                if (!ac) ac = new(window.AudioContext || window.webkitAudioContext)();
-                const osc = ac.createOscillator();
-                const g = ac.createGain();
-                osc.connect(g);
-                g.connect(ac.destination);
-                const t = ac.currentTime;
-                if (type === 'add') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(523, t);
-                    osc.frequency.setValueAtTime(784, t + 0.1);
-                    osc.frequency.setValueAtTime(1047, t + 0.2);
-                    g.gain.setValueAtTime(0.07, t);
-                    g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
-                    osc.start(t);
-                    osc.stop(t + 0.35);
-                } else if (type === 'click') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(1000, t);
-                    osc.frequency.exponentialRampToValueAtTime(1800, t + 0.03);
-                    g.gain.setValueAtTime(0.04, t);
-                    g.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
-                    osc.start(t);
-                    osc.stop(t + 0.04);
-                } else if (type === 'del') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(300, t);
-                    osc.frequency.linearRampToValueAtTime(60, t + 0.18);
-                    g.gain.setValueAtTime(0.08, t);
-                    g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-                    osc.start(t);
-                    osc.stop(t + 0.18);
-                } else if (type === 'roll') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(320, t);
-                    osc.frequency.exponentialRampToValueAtTime(160, t + 0.05);
-                    g.gain.setValueAtTime(0.02, t);
-                    g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
-                    osc.start(t);
-                    osc.stop(t + 0.06);
-                }
-            } catch (e) {}
-        }
-
-        window.toggleAudio = function() {
-            audioOn = !audioOn;
-            document.getElementById('iconOn').classList.toggle('hidden', !audioOn);
-            document.getElementById('iconOff').classList.toggle('hidden', audioOn);
-            toast(audioOn ? 'Sound on' : 'Sound off');
-        };
-
-        /* ────── Toast ────── */
-        let toastTimer;
-
-        function toast(msg) {
-            const el = document.getElementById('toast');
-            document.getElementById('toastText').textContent = msg;
-            el.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
-        }
-
-        /* ────── Clock ────── */
-        function tickClock() {
-            document.getElementById('clockEl').textContent =
-                new Date().toLocaleTimeString('en-GB', { hour12: false });
-        }
-        setInterval(tickClock, 1000);
-        tickClock();
-
-        /* ────── Persist ────── */
-        function save() {
-            try { localStorage.setItem(SK, JSON.stringify(list)); } catch (e) {}
-        }
-
-        function load() {
-            try {
-                const raw = JSON.parse(localStorage.getItem(SK));
-                list = Array.isArray(raw) ? raw : defaultData();
-                // Ensure all entries have subRating field (for old data)
-                list.forEach(m => { if (m.subRating === undefined) m.subRating = 0; });
-            } catch (e) { list = defaultData(); }
-        }
-
-        function defaultData() {
-            return [
-                { id: 1, title: 'Solo Leveling', chapter: 179, status: 'Completed',
-                    notes: 'Sung Jin-woo clearing gates — one of the best power fantasies in manhwa.',
-                    image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=400&auto=format&fit=crop',
-                    rating: 5, subRating: 18, tier: 'S', added: new Date(Date.now() - 5e7).toISOString() },
-                { id: 2, title: 'Omniscient Reader', chapter: 215, status: 'Reading',
-                    notes: 'World-building is insane. Story-within-a-story concept executed perfectly.',
-                    image: 'https://images.unsplash.com/photo-1535663116935-714fbf4e5f28?q=80&w=400&auto=format&fit=crop',
-                    rating: 5, subRating: 19, tier: 'S', added: new Date(Date.now() - 4e7).toISOString() },
-                { id: 3, title: 'Doom Breaker', chapter: 98, status: 'Reading',
-                    notes: 'Great action, solid regression plot. Artwork is consistently clean.',
-                    image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=400&auto=format&fit=crop',
-                    rating: 4, subRating: 15, tier: 'A', added: new Date(Date.now() - 3e7).toISOString() },
-                { id: 4, title: 'Sword King', chapter: 194, status: 'Reading',
-                    notes: 'Underrated series — funny moments balanced with great combat.',
-                    image: 'https://images.unsplash.com/photo-1618172193763-c511deb635ca?q=80&w=400&auto=format&fit=crop',
-                    rating: 4, subRating: 17, tier: 'A', added: new Date(Date.now() - 2e7).toISOString() },
-            ];
-        }
-
-        /* ────── Tier mapping from star rating ────── */
-        function ratingToTier(r) {
-            return ['E', 'D', 'C', 'B', 'A', 'S'][r] ?? 'E';
-        }
-
-        /* ────── Star Rating UI (1-5) ────── */
-        window.setStarRating = function(n) {
-            starRating = n;
-            beep('click');
-            refreshStarUI();
-            updatePreview();
-        };
-
-        function refreshStarUI() {
-            const btns = document.querySelectorAll('#starsRow .star-btn');
-            btns.forEach((b, i) => b.classList.toggle('lit', i < starRating));
-            const td = document.getElementById('tierDisplay');
-            if (starRating > 0) {
-                const tier = ratingToTier(starRating);
-                td.textContent = TIER_LABELS[tier];
-                td.style.borderColor = TIER_COLORS[tier];
-                td.style.color = TIER_COLORS[tier];
-            } else {
-                td.textContent = '— Select rating —';
-                td.style.borderColor = 'rgba(236,232,225,0.1)';
-                td.style.color = '#4a5568';
+    /* ── Audio ── */
+    function beep(type) {
+        if (!audioOn) return;
+        try {
+            if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ac.createOscillator(), g = ac.createGain();
+            osc.connect(g); g.connect(ac.destination);
+            const t = ac.currentTime;
+            if (type === 'add') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523, t);
+                osc.frequency.setValueAtTime(784, t + 0.1);
+                osc.frequency.setValueAtTime(1047, t + 0.2);
+                g.gain.setValueAtTime(0.07, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+                osc.start(t); osc.stop(t + 0.35);
+            } else if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1000, t);
+                osc.frequency.exponentialRampToValueAtTime(1800, t + 0.03);
+                g.gain.setValueAtTime(0.04, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+                osc.start(t); osc.stop(t + 0.04);
+            } else if (type === 'del') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(300, t);
+                osc.frequency.linearRampToValueAtTime(60, t + 0.18);
+                g.gain.setValueAtTime(0.08, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+                osc.start(t); osc.stop(t + 0.18);
+            } else if (type === 'roll') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, t);
+                osc.frequency.exponentialRampToValueAtTime(160, t + 0.05);
+                g.gain.setValueAtTime(0.02, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+                osc.start(t); osc.stop(t + 0.06);
             }
-        }
+        } catch(e) {}
+    }
 
-        /* ────── Sub Rating (0-20) ────── */
-        window.updateSubRating = function() {
-            subRating = parseInt(document.getElementById('subRatingSlider').value);
-            document.getElementById('subRatingVal').textContent = subRating;
-            updatePreview();
-        };
+    window.toggleAudio = function() {
+        audioOn = !audioOn;
+        document.getElementById('iconOn').classList.toggle('hidden', !audioOn);
+        document.getElementById('iconOff').classList.toggle('hidden', audioOn);
+        toast(audioOn ? 'Sound on' : 'Sound off');
+    };
 
-        /* ────── Cover input ────── */
-        window.handleFileUpload = function(e) {
-            const f = e.target.files[0];
-            if (!f) return;
-            if (f.size > 2 * 1024 * 1024) { toast('File too large (max 2 MB)'); return; }
-            const r = new FileReader();
-            r.onload = ev => {
-                cover = ev.target.result;
-                document.getElementById('coverUrl').value = '';
-                toast('Cover uploaded');
-                updatePreview();
-            };
-            r.readAsDataURL(f);
-        };
-        window.handleUrlInput = function() {
-            const v = document.getElementById('coverUrl').value.trim();
-            cover = v || null;
-            updatePreview();
-        };
+    /* ── Toast ── */
+    let toastTimer;
+    function toast(msg) {
+        const el = document.getElementById('toast');
+        document.getElementById('toastText').textContent = msg;
+        el.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+    }
 
-        /* ────── Live preview ────── */
-        function updatePreview() {
-            const title = document.getElementById('fTitle').value.trim();
-            const chapter = document.getElementById('fChapter').value.trim();
-            const status = document.getElementById('fStatus').value;
-            const notes = document.getElementById('fNotes').value.trim();
+    /* ── Clock ── */
+    function tickClock() {
+        document.getElementById('clockEl').textContent =
+            new Date().toLocaleTimeString('en-GB', { hour12: false });
+    }
+    setInterval(tickClock, 1000); tickClock();
 
-            document.getElementById('pvTitle').textContent = title || '\u00A0';
-            document.getElementById('pvChapter').textContent = chapter ? `Ch. ${chapter}` : 'Ch. —';
-            document.getElementById('pvStatus').textContent = status || 'No status';
-            document.getElementById('pvNotes').textContent = notes || '\u00A0';
-            document.getElementById('pvStars').textContent = '★'.repeat(starRating) + '☆'.repeat(5 - starRating);
-            document.getElementById('pvSubRating').textContent = subRating + '/20';
+    /* ── Persist ── */
+    function save() { try { localStorage.setItem(SK, JSON.stringify(list)); } catch(e) {} }
+    function load() {
+        try {
+            const raw = JSON.parse(localStorage.getItem(SK));
+            list = Array.isArray(raw) ? raw : defaultData();
+            list.forEach(m => { if (m.subRating === undefined) m.subRating = 0; });
+        } catch(e) { list = defaultData(); }
+    }
 
-            const img = document.getElementById('pvCover');
-            const fallback = document.getElementById('pvCoverFallback');
-            if (cover) {
-                img.src = cover;
-                img.classList.remove('hidden');
-                fallback.style.display = 'none';
-            } else {
-                img.src = '';
-                img.classList.add('hidden');
-                fallback.style.display = 'flex';
-            }
-        }
+    function defaultData() {
+        return [
+            { id: 1, title: 'Solo Leveling', chapter: 179, status: 'Completed',
+              notes: 'Sung Jin-woo clearing gates — one of the best power fantasies in manhwa.',
+              image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=400&auto=format&fit=crop',
+              rating: 5, subRating: 18, tier: 'S', added: new Date(Date.now()-5e7).toISOString() },
+            { id: 2, title: 'Omniscient Reader', chapter: 215, status: 'Reading',
+              notes: 'World-building is insane. Story-within-a-story concept executed perfectly.',
+              image: 'https://images.unsplash.com/photo-1535663116935-714fbf4e5f28?q=80&w=400&auto=format&fit=crop',
+              rating: 5, subRating: 19, tier: 'S', added: new Date(Date.now()-4e7).toISOString() },
+            { id: 3, title: 'Doom Breaker', chapter: 98, status: 'Reading',
+              notes: 'Great action, solid regression plot. Artwork is consistently clean.',
+              image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=400&auto=format&fit=crop',
+              rating: 4, subRating: 15, tier: 'A', added: new Date(Date.now()-3e7).toISOString() },
+            { id: 4, title: 'Sword King', chapter: 194, status: 'Reading',
+              notes: 'Underrated series — funny moments balanced with great combat.',
+              image: 'https://images.unsplash.com/photo-1618172193763-c511deb635ca?q=80&w=400&auto=format&fit=crop',
+              rating: 4, subRating: 17, tier: 'A', added: new Date(Date.now()-2e7).toISOString() },
+        ];
+    }
 
-        ['fTitle', 'fChapter', 'fStatus', 'fNotes'].forEach(id => {
-            document.getElementById(id)?.addEventListener('input', updatePreview);
-            document.getElementById(id)?.addEventListener('change', updatePreview);
-        });
+    function ratingToTier(r) { return ['E','D','C','B','A','S'][r] ?? 'E'; }
 
-        /* ────── Submit form ────── */
-        window.submitForm = function() {
-            const title = document.getElementById('fTitle').value.trim();
-            const chapter = parseInt(document.getElementById('fChapter').value);
-            const status = document.getElementById('fStatus').value;
-            const notes = document.getElementById('fNotes').value.trim();
-
-            if (!title) return toast('Please enter a title');
-            if (isNaN(chapter) || chapter < 0) return toast('Enter a valid chapter number');
-            if (!starRating) return toast('Please set a star rating');
-            if (subRating < 0 || subRating > 20) return toast('Sub rating must be 0-20');
-
+    /* ── Stars ── */
+    window.setStarRating = function(n) { starRating = n; beep('click'); refreshStarUI(); updatePreview(); };
+    function refreshStarUI() {
+        document.querySelectorAll('#starsRow .star-btn').forEach((b,i) => b.classList.toggle('lit', i < starRating));
+        const td = document.getElementById('tierDisplay');
+        if (starRating > 0) {
             const tier = ratingToTier(starRating);
+            td.textContent = TIER_LABELS[tier];
+            td.style.borderColor = TIER_COLORS[tier];
+            td.style.color = TIER_COLORS[tier];
+        } else {
+            td.textContent = '— Select rating —';
+            td.style.borderColor = 'rgba(236,232,225,0.1)';
+            td.style.color = '#4a5568';
+        }
+    }
 
-            if (editId !== null) {
-                const idx = list.findIndex(m => m.id === editId);
-                if (idx !== -1) {
-                    list[idx] = { ...list[idx], title, chapter, status, notes, image: cover || '', 
-                                  rating: starRating, subRating, tier };
-                    toast(`Updated: ${title}`);
-                }
-            } else {
-                list.push({ id: Date.now(), title, chapter, status, notes, image: cover || '', 
-                            rating: starRating, subRating, tier, added: new Date().toISOString() });
-                toast(`Added: ${title}`);
+    window.updateSubRating = function() {
+        subRating = parseInt(document.getElementById('subRatingSlider').value);
+        document.getElementById('subRatingVal').textContent = subRating;
+        updatePreview();
+    };
+
+    window.handleFileUpload = function(e) {
+        const f = e.target.files[0];
+        if (!f) return;
+        if (f.size > 2 * 1024 * 1024) { toast('File too large (max 2 MB)'); return; }
+        const r = new FileReader();
+        r.onload = ev => { cover = ev.target.result; document.getElementById('coverUrl').value = ''; toast('Cover uploaded'); updatePreview(); };
+        r.readAsDataURL(f);
+    };
+    window.handleUrlInput = function() {
+        cover = document.getElementById('coverUrl').value.trim() || null;
+        updatePreview();
+    };
+
+    function updatePreview() {
+        const title = document.getElementById('fTitle').value.trim();
+        const chapter = document.getElementById('fChapter').value.trim();
+        const status = document.getElementById('fStatus').value;
+        const notes = document.getElementById('fNotes').value.trim();
+        document.getElementById('pvTitle').textContent = title || '\u00A0';
+        document.getElementById('pvChapter').textContent = chapter ? `Ch. ${chapter}` : 'Ch. —';
+        document.getElementById('pvStatus').textContent = status || 'No status';
+        document.getElementById('pvNotes').textContent = notes || '\u00A0';
+        document.getElementById('pvStars').textContent = '★'.repeat(starRating) + '☆'.repeat(5 - starRating);
+        document.getElementById('pvSubRating').textContent = subRating + '/20';
+        const img = document.getElementById('pvCover');
+        const fallback = document.getElementById('pvCoverFallback');
+        if (cover) { img.src = cover; img.classList.remove('hidden'); fallback.style.display = 'none'; }
+        else { img.src = ''; img.classList.add('hidden'); fallback.style.display = 'flex'; }
+    }
+
+    ['fTitle','fChapter','fStatus','fNotes'].forEach(id => {
+        document.getElementById(id)?.addEventListener('input', updatePreview);
+        document.getElementById(id)?.addEventListener('change', updatePreview);
+    });
+
+    /* ── Submit ── */
+    window.submitForm = function() {
+        const title = document.getElementById('fTitle').value.trim();
+        const chapter = parseInt(document.getElementById('fChapter').value);
+        const status = document.getElementById('fStatus').value;
+        const notes = document.getElementById('fNotes').value.trim();
+        if (!title) return toast('Please enter a title');
+        if (isNaN(chapter) || chapter < 0) return toast('Enter a valid chapter number');
+        if (!starRating) return toast('Please set a star rating');
+        const tier = ratingToTier(starRating);
+        if (editId !== null) {
+            const idx = list.findIndex(m => m.id === editId);
+            if (idx !== -1) {
+                list[idx] = { ...list[idx], title, chapter, status, notes, image: cover || '', rating: starRating, subRating, tier };
+                toast(`Updated: ${title}`);
             }
+        } else {
+            list.push({ id: Date.now(), title, chapter, status, notes, image: cover || '', rating: starRating, subRating, tier, added: new Date().toISOString() });
+            toast(`Added: ${title}`);
+        }
+        beep('add'); save(); renderList(); updateStats(); resetForm();
+    };
 
-            beep('add');
-            save();
-            renderList();
-            updateStats();
-            resetForm();
-        };
+    window.resetForm = function() {
+        ['fTitle','fChapter','fNotes','coverUrl'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+        document.getElementById('fStatus').value = 'Reading';
+        document.getElementById('coverFile').value = '';
+        starRating = 0; subRating = 0;
+        document.getElementById('subRatingSlider').value = 0;
+        document.getElementById('subRatingVal').textContent = '0';
+        cover = null; editId = null;
+        document.getElementById('formTitle').innerHTML = '<span class="w-2.5 h-2.5 bg-vRed tac-pulse"></span> Add entry';
+        document.getElementById('submitBtn').textContent = 'Add to library';
+        document.getElementById('cancelEditBtn').classList.add('hidden');
+        refreshStarUI(); updatePreview();
+    };
 
-        /* ────── Reset form ────── */
-        window.resetForm = function() {
-            ['fTitle', 'fChapter', 'fNotes', 'coverUrl'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '';
-            });
-            document.getElementById('fStatus').value = 'Reading';
-            document.getElementById('coverFile').value = '';
-            starRating = 0;
-            subRating = 0;
-            document.getElementById('subRatingSlider').value = 0;
-            document.getElementById('subRatingVal').textContent = '0';
-            cover = null;
-            editId = null;
+    window.editEntry = function(id) {
+        const m = list.find(x => x.id === id);
+        if (!m) return;
+        editId = id;
+        document.getElementById('fTitle').value = m.title;
+        document.getElementById('fChapter').value = m.chapter;
+        document.getElementById('fStatus').value = m.status;
+        document.getElementById('fNotes').value = m.notes;
+        document.getElementById('coverUrl').value = m.image && m.image.startsWith('http') ? m.image : '';
+        cover = m.image || null;
+        starRating = m.rating;
+        subRating = m.subRating ?? 0;
+        document.getElementById('subRatingSlider').value = subRating;
+        document.getElementById('subRatingVal').textContent = subRating;
+        document.getElementById('formTitle').innerHTML = `<span class="w-2.5 h-2.5 bg-vGold inline-block"></span> Editing: ${m.title}`;
+        document.getElementById('submitBtn').textContent = 'Save changes';
+        document.getElementById('cancelEditBtn').classList.remove('hidden');
+        refreshStarUI(); updatePreview(); beep('click');
+        document.getElementById('addSection').scrollIntoView({ behavior: 'smooth' });
+    };
 
-            document.getElementById('formTitle').innerHTML =
-                '<span class="w-2.5 h-2.5 bg-vRed tac-pulse"></span> Add entry';
-            document.getElementById('submitBtn').textContent = 'Add to library';
-            document.getElementById('cancelEditBtn').classList.add('hidden');
+    window.addChapter = function(id, e) {
+        e.stopPropagation();
+        const m = list.find(x => x.id === id);
+        if (!m) return;
+        m.chapter = (parseInt(m.chapter) || 0) + 1;
+        beep('click'); save(); renderList();
+    };
 
-            refreshStarUI();
-            updatePreview();
-        };
+    window.adjustSubRating = function(id, delta, e) {
+        e.stopPropagation();
+        const m = list.find(x => x.id === id);
+        if (!m) return;
+        m.subRating = Math.min(20, Math.max(0, (m.subRating || 0) + delta));
+        beep('click'); save(); renderList();
+    };
 
-        /* ────── Edit entry ────── */
-        window.editEntry = function(id) {
-            const m = list.find(x => x.id === id);
-            if (!m) return;
-            editId = id;
+    window.askDelete = function(id, e) {
+        e.stopPropagation();
+        const m = list.find(x => x.id === id);
+        if (!m) return;
+        delId = id;
+        document.getElementById('deleteName').textContent = m.title;
+        document.getElementById('deleteModal').classList.add('open');
+        beep('click');
+    };
+    window.closeDeleteModal = function() { document.getElementById('deleteModal').classList.remove('open'); delId = null; };
+    document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+        if (delId === null) return;
+        const m = list.find(x => x.id === delId);
+        list = list.filter(x => x.id !== delId);
+        if (editId === delId) resetForm();
+        save(); renderList(); updateStats(); closeDeleteModal(); beep('del');
+        toast(`Removed: ${m?.title}`);
+    });
 
-            document.getElementById('fTitle').value = m.title;
-            document.getElementById('fChapter').value = m.chapter;
-            document.getElementById('fStatus').value = m.status;
-            document.getElementById('fNotes').value = m.notes;
-            document.getElementById('coverUrl').value = m.image && m.image.startsWith('http') ? m.image : '';
+    window.setFilter = function(f) {
+        filter = f; beep('click');
+        document.querySelectorAll('.filter-tab').forEach(b => {
+            const map = { All:'All', Reading:'Reading', Completed:'Completed', Dropped:'Dropped', 'Plan to Read':'Plan to read' };
+            b.classList.toggle('active', b.textContent.trim().toLowerCase() === (map[f] || f).toLowerCase());
+        });
+        renderList();
+    };
 
-            cover = m.image || null;
-            starRating = m.rating;
-            subRating = m.subRating ?? 0;
+    /* ── Sanitize ── */
+    function sanitize(str) { const d = document.createElement('div'); d.textContent = str || ''; return d.innerHTML; }
 
-            document.getElementById('subRatingSlider').value = subRating;
-            document.getElementById('subRatingVal').textContent = subRating;
+    /* ── STATUS config ── */
+    function statusCfg(s) {
+        if (s === 'Completed') return { color: '#00c97a', label: 'Completed' };
+        if (s === 'Reading')   return { color: '#00d4e0', label: 'Reading' };
+        if (s === 'Dropped')   return { color: '#ff4655', label: 'Dropped' };
+        return { color: '#888', label: s };
+    }
 
-            document.getElementById('formTitle').innerHTML =
-                `<span class="w-2.5 h-2.5 bg-vGold inline-block"></span> Editing: ${m.title}`;
-            document.getElementById('submitBtn').textContent = 'Save changes';
-            document.getElementById('cancelEditBtn').classList.remove('hidden');
+    /* ── RENDER ── */
+    function renderList() {
+        const container = document.getElementById('listContainer');
+        container.innerHTML = '';
+        const q = document.getElementById('searchEl').value.toLowerCase();
+        const sort = document.getElementById('sortEl').value;
 
-            refreshStarUI();
-            updatePreview();
-            beep('click');
-            document.getElementById('addSection').scrollIntoView({ behavior: 'smooth' });
-        };
-
-        /* ────── Increment chapter ────── */
-        window.addChapter = function(id, e) {
-            e.stopPropagation();
-            const m = list.find(x => x.id === id);
-            if (!m) return;
-            m.chapter = (parseInt(m.chapter) || 0) + 1;
-            beep('click');
-            save();
-            renderList();
-        };
-
-        /* ────── Adjust sub rating from card ────── */
-        window.adjustSubRating = function(id, delta, e) {
-            e.stopPropagation();
-            const m = list.find(x => x.id === id);
-            if (!m) return;
-            let newVal = (m.subRating || 0) + delta;
-            newVal = Math.min(20, Math.max(0, newVal));
-            m.subRating = newVal;
-            beep('click');
-            save();
-            renderList();
-        };
-
-        /* ────── Delete modal ────── */
-        window.askDelete = function(id, e) {
-            e.stopPropagation();
-            const m = list.find(x => x.id === id);
-            if (!m) return;
-            delId = id;
-            document.getElementById('deleteName').textContent = m.title;
-            document.getElementById('deleteModal').classList.add('open');
-            beep('click');
-        };
-        window.closeDeleteModal = function() {
-            document.getElementById('deleteModal').classList.remove('open');
-            delId = null;
-        };
-        document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
-            if (delId === null) return;
-            const m = list.find(x => x.id === delId);
-            list = list.filter(x => x.id !== delId);
-            if (editId === delId) resetForm();
-            save();
-            renderList();
-            updateStats();
-            closeDeleteModal();
-            beep('del');
-            toast(`Removed: ${m?.title}`);
+        let items = list.filter(m => {
+            const matchF = filter === 'All' || m.status === filter;
+            const matchQ = !q || m.title.toLowerCase().includes(q) || (m.notes||'').toLowerCase().includes(q);
+            return matchF && matchQ;
         });
 
-        /* ────── Filter ────── */
-        window.setFilter = function(f) {
-            filter = f;
-            beep('click');
-            document.querySelectorAll('.filter-tab').forEach(b => {
-                const map = { All: 'All', Reading: 'Reading', Completed: 'Completed', Dropped: 'Dropped',
-                    'Plan to Read': 'Plan to read' };
-                b.classList.toggle('active', b.textContent.trim().toLowerCase() === (map[f] || f)
-                    .toLowerCase());
-            });
-            renderList();
-        };
-
-        /* ────── Render ────── */
-        function renderList() {
-            const container = document.getElementById('listContainer');
-            container.innerHTML = '';
-
-            const q = document.getElementById('searchEl').value.toLowerCase();
-            const sort = document.getElementById('sortEl').value;
-
-            let items = list.filter(m => {
-                const matchF = filter === 'All' || m.status === filter;
-                const matchQ = !q || m.title.toLowerCase().includes(q) || (m.notes || '').toLowerCase()
-                    .includes(q);
-                return matchF && matchQ;
-            });
-
-            // Global sort (before splitting into tiers)
-            items.sort((a, b) => {
-                if (sort === 'added-desc') return new Date(b.added) - new Date(a.added);
-                if (sort === 'added-asc') return new Date(a.added) - new Date(b.added);
-                if (sort === 'rating-desc') {
-                    if (b.rating !== a.rating) return b.rating - a.rating;
-                    return (b.subRating || 0) - (a.subRating || 0);
-                }
-                if (sort === 'rating-asc') {
-                    if (a.rating !== b.rating) return a.rating - b.rating;
-                    return (a.subRating || 0) - (b.subRating || 0);
-                }
-                if (sort === 'title-asc') return a.title.localeCompare(b.title);
-                return 0;
-            });
-
-            if (items.length === 0) {
-                container.innerHTML = `
-          <div class="text-center py-16 border border-white/5 bg-vPanel/40">
-            <p class="font-riot text-2xl text-gray-700 uppercase tracking-widest">No entries found</p>
-            <p class="font-mono text-xs text-gray-600 mt-2">Add your first manhwa below ↓</p>
-          </div>`;
-                return;
+        items.sort((a, b) => {
+            if (sort === 'added-desc') return new Date(b.added) - new Date(a.added);
+            if (sort === 'added-asc')  return new Date(a.added) - new Date(b.added);
+            if (sort === 'rating-desc') {
+                if (b.rating !== a.rating) return b.rating - a.rating;
+                return (b.subRating||0) - (a.subRating||0);
             }
+            if (sort === 'rating-asc') {
+                if (a.rating !== b.rating) return a.rating - b.rating;
+                return (a.subRating||0) - (b.subRating||0);
+            }
+            if (sort === 'title-asc') return a.title.localeCompare(b.title);
+            return 0;
+        });
 
-            TIERS.forEach(tier => {
-                const members = items.filter(m => m.tier === tier);
-                if (members.length === 0) return;
+        if (items.length === 0) {
+            container.innerHTML = `
+              <div class="text-center py-16 border border-white/5 bg-vPanel/40">
+                <p class="font-riot text-2xl text-gray-700 uppercase tracking-widest">No entries found</p>
+                <p class="font-mono text-xs text-gray-600 mt-2">Add your first manhwa below ↓</p>
+              </div>`;
+            return;
+        }
 
-                // Sort within tier by subRating descending, then by title
-                members.sort((a, b) => {
-                    if ((b.subRating || 0) !== (a.subRating || 0)) return (b.subRating || 0) - (a.subRating || 0);
-                    return a.title.localeCompare(b.title);
-                });
+        TIERS.forEach(tier => {
+            const members = items.filter(m => m.tier === tier);
+            if (!members.length) return;
 
-                const row = document.createElement('div');
-                row.className = 'tier-row grid grid-cols-1 lg:grid-cols-12 overflow-hidden';
-
-                /* Tier side panel */
-                const side = document.createElement('div');
-                side.className =
-                    'lg:col-span-2 relative flex items-center justify-center p-5 min-h-[100px] overflow-hidden border-b lg:border-b-0 lg:border-r border-white/5';
-                side.style.cssText = `
-          background-image: linear-gradient(to bottom, rgba(15,25,35,0.88), rgba(15,25,35,0.96)),
-                            url('${TIER_BG[tier]}');
-          background-size: cover; background-position: center;`;
-                side.innerHTML = `
-          <div class="flex lg:flex-col items-center gap-3 lg:gap-2 z-10">
-            <div class="tier-badge" style="color:${TIER_COLORS[tier]};border-color:${TIER_COLORS[tier]}">${tier}</div>
-            <span class="font-riot text-[11px] tracking-wider text-center" style="color:${TIER_COLORS[tier]}">${TIER_LABELS[tier]}</span>
-          </div>`;
-
-                /* Cards area */
-                const cards = document.createElement('div');
-                cards.className = 'lg:col-span-10 p-4 flex flex-wrap gap-3 content-start';
-
-                members.forEach(m => {
-                    const statusColor =
-                        m.status === 'Completed' ? '#00c97a' :
-                        m.status === 'Reading' ? '#00d4e0' :
-                        m.status === 'Dropped' ? '#ff4655' : '#888';
-
-                    const hasCover = m.image && m.image.trim().length > 0;
-                    const card = document.createElement('div');
-                    card.className = 'manga-card w-full sm:w-64 p-3 flex gap-3';
-                    card.onclick = () => editEntry(m.id);
-
-                    card.innerHTML = `
-            <!-- Status dot -->
-            <div class="status-dot mt-1 shrink-0" style="background:${statusColor}"></div>
-
-            <!-- Cover thumbnail -->
-            <div class="w-14 h-20 shrink-0 bg-vDark border border-white/8 overflow-hidden flex items-center justify-center relative">
-              ${hasCover
-                ? `<img src="${sanitize(m.image)}" alt="" class="w-full h-full object-cover"
-                       onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-                   <span class="absolute inset-0 items-center justify-center font-riot text-base text-vRed/15 hidden">ART</span>`
-                : `<span class="font-riot text-base text-vRed/15 select-none">ART</span>`}
-            </div>
-
-            <!-- Info -->
-            <div class="flex-grow flex flex-col justify-between overflow-hidden min-w-0">
-              <div class="min-w-0">
-                <h4 class="font-riot text-xs text-white truncate tracking-wide group-hover:text-vRed transition-colors"
-                    title="${sanitize(m.title)}">${sanitize(m.title).toUpperCase()}</h4>
-                <div class="flex items-center gap-1">
-                  <div class="text-vRed text-[11px]">${'★'.repeat(m.rating)}</div>
-                  <span class="font-mono text-[9px] text-vCyan bg-vDark/80 px-1">${m.subRating ?? 0}/20</span>
-                </div>
-              </div>
-              <div class="flex items-center justify-between border-t border-white/5 pt-2 mt-1">
-                <div>
-                  <span class="font-mono text-[9px] text-gray-500 block uppercase">${sanitize(m.status)}</span>
-                  <span class="font-mono text-xs text-vCyan font-bold">Ch. ${m.chapter}</span>
-                </div>
-                <div class="flex items-center gap-1">
-                  <button onclick="addChapter(${m.id},event)"
-                    class="px-2 py-1 border border-white/10 hover:border-vGreen hover:text-vGreen font-mono text-[9px] text-gray-400 font-bold transition-all"
-                    title="Add chapter">+1</button>
-                  <button onclick="adjustSubRating(${m.id}, 1, event)"
-                    class="px-1 py-0.5 border border-white/10 hover:border-vCyan hover:text-vCyan font-mono text-[8px] text-gray-500 font-bold transition-all"
-                    title="Increase sub rating">▲</button>
-                  <button onclick="adjustSubRating(${m.id}, -1, event)"
-                    class="px-1 py-0.5 border border-white/10 hover:border-vCyan hover:text-vCyan font-mono text-[8px] text-gray-500 font-bold transition-all"
-                    title="Decrease sub rating">▼</button>
-                  <button onclick="askDelete(${m.id},event)"
-                    class="p-1 text-gray-600 hover:text-vRed transition-colors"
-                    title="Delete">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>`;
-
-                    cards.appendChild(card);
-                });
-
-                row.appendChild(side);
-                row.appendChild(cards);
-                container.appendChild(row);
+            members.sort((a, b) => {
+                if ((b.subRating||0) !== (a.subRating||0)) return (b.subRating||0) - (a.subRating||0);
+                return a.title.localeCompare(b.title);
             });
-        }
 
-        /* ────── Stats ────── */
-        function updateStats() {
-            document.getElementById('statCount').textContent = list.length;
-        }
+            const row = document.createElement('div');
+            row.className = 'tier-row';
 
-        /* ────── Sanitize (XSS fix) ────── */
-        function sanitize(str) {
-            const d = document.createElement('div');
-            d.textContent = str || '';
-            return d.innerHTML;
-        }
+            const header = document.createElement('div');
+            header.style.cssText = `
+                display: flex; align-items: center; gap: 16px;
+                padding: 12px 16px;
+                background-image: linear-gradient(to right, rgba(15,25,35,0.95), rgba(15,25,35,0.7)),
+                                  url('${TIER_BG[tier]}');
+                background-size: cover; background-position: center;
+                border-bottom: 1px solid rgba(236,232,225,0.06);`;
+            header.innerHTML = `
+                <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+                     font-family:'Anton',sans-serif;font-size:22px;border:2px solid ${TIER_COLORS[tier]};
+                     color:${TIER_COLORS[tier]};flex-shrink:0;">${tier}</div>
+                <div>
+                  <div style="font-family:'Anton',sans-serif;font-size:13px;letter-spacing:0.1em;
+                       color:${TIER_COLORS[tier]};text-transform:uppercase;">${TIER_LABELS[tier]}</div>
+                  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#4a5568;
+                       letter-spacing:0.08em;margin-top:2px;">${members.length} title${members.length !== 1 ? 's' : ''}</div>
+                </div>
+                <div style="margin-left:auto;height:1px;flex:1;background:linear-gradient(to right,${TIER_COLORS[tier]}33,transparent);max-width:120px;"></div>`;
 
-        /* ────── Roulette ────── */
-        window.openRoulette = function() {
-            if (list.length === 0) { toast('Your library is empty'); return; }
-            document.getElementById('rouletteTitle').textContent = '— —';
-            document.getElementById('rouletteCover').innerHTML =
-                '<span class="font-riot text-3xl text-vRed/20 select-none">?</span>';
-            document.getElementById('rouletteModal').classList.add('open');
-            beep('click');
-        };
-        window.closeRoulette = function() {
-            if (spinning) return;
-            document.getElementById('rouletteModal').classList.remove('open');
-        };
-        window.spinRoulette = function() {
-            if (spinning || list.length === 0) return;
-            spinning = true;
-            const btn = document.getElementById('rollBtn');
-            btn.disabled = true;
-            btn.textContent = 'Rolling…';
+            const grid = document.createElement('div');
+            grid.style.cssText = 'padding: 12px; display: flex; flex-wrap: wrap; gap: 10px;';
 
-            let picked, count = 0,
-                total = 18;
-            const iv = setInterval(() => {
-                picked = list[Math.floor(Math.random() * list.length)];
-                const hasCover = picked.image && picked.image.trim().length > 0;
-                document.getElementById('rouletteCover').innerHTML = hasCover ?
-                    `<img src="${sanitize(picked.image)}" class="w-full h-full object-cover" />` :
-                    `<span class="font-riot text-3xl text-vRed/20 select-none">ART</span>`;
-                document.getElementById('rouletteTitle').textContent = picked.title.toUpperCase();
-                beep('roll');
-                count++;
-                if (count >= total) {
-                    clearInterval(iv);
-                    spinning = false;
-                    btn.disabled = false;
-                    btn.textContent = 'Roll again';
-                    beep('add');
-                    toast(`Selected: ${picked.title}`);
-                }
-            }, 130);
-        };
+            members.forEach(m => {
+                const sc = statusCfg(m.status);
+                const hasCover = m.image && m.image.trim().length > 0;
 
-        /* ────── Export / Import ────── */
-        window.exportData = function() {
+                const card = document.createElement('div');
+                card.className = 'manga-card';
+                card.style.cssText = 'width: 100%; max-width: 280px; padding: 10px; display: flex; gap: 10px;';
+                card.onclick = () => editEntry(m.id);
+
+                card.innerHTML = `
+                  <div class="card-cover">
+                    ${hasCover
+                      ? `<img src="${sanitize(m.image)}" alt=""
+                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                         <div class="card-cover-fallback" style="display:none">
+                           <span style="font-family:'Anton',sans-serif;font-size:14px;color:rgba(255,70,85,0.15)">ART</span>
+                         </div>`
+                      : `<div class="card-cover-fallback">
+                           <span style="font-family:'Anton',sans-serif;font-size:14px;color:rgba(255,70,85,0.15)">ART</span>
+                         </div>`}
+                  </div>
+
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;">
+                    <div>
+                      <h4 style="font-family:'Anton',sans-serif;font-size:11px;color:#ece8e1;
+                           letter-spacing:0.06em;text-transform:uppercase;
+                           white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+                           margin-bottom:4px;" title="${sanitize(m.title)}">${sanitize(m.title)}</h4>
+                      <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
+                        <span style="color:${TIER_COLORS[m.tier]};font-size:10px;letter-spacing:2px;">${'★'.repeat(m.rating)}${'☆'.repeat(5-m.rating)}</span>
+                        <span style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#00d4e0;
+                             background:rgba(15,25,35,0.8);padding:1px 5px;border:1px solid rgba(255,255,255,0.06);">
+                          ${m.subRating ?? 0}/20
+                        </span>
+                      </div>
+                      <div class="status-badge" style="color:${sc.color};border-color:${sc.color}33;background:${sc.color}11;">
+                        <span style="width:4px;height:4px;background:${sc.color};display:inline-block;flex-shrink:0;"></span>
+                        ${sanitize(sc.label)}
+                      </div>
+                    </div>
+
+                    <div style="display:flex;align-items:center;justify-content:space-between;
+                         border-top:1px solid rgba(255,255,255,0.04);padding-top:6px;margin-top:6px;">
+                      <span style="font-family:'Share Tech Mono',monospace;font-size:11px;
+                           color:#00d4e0;font-weight:700;">Ch. ${m.chapter}</span>
+                      <div style="display:flex;align-items:center;gap:3px;">
+                        <button onclick="addChapter(${m.id},event)"
+                          style="padding:3px 7px;border:1px solid rgba(255,255,255,0.08);
+                                 font-family:'Share Tech Mono',monospace;font-size:9px;
+                                 color:#6b7280;background:transparent;cursor:pointer;transition:all 0.15s;"
+                          onmouseover="this.style.borderColor='#00c97a';this.style.color='#00c97a'"
+                          onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.color='#6b7280'"
+                          title="Add chapter">+1</button>
+                        <button onclick="adjustSubRating(${m.id},1,event)"
+                          style="padding:2px 5px;border:1px solid rgba(255,255,255,0.07);
+                                 font-size:9px;color:#4a5568;background:transparent;cursor:pointer;transition:all 0.15s;"
+                          onmouseover="this.style.borderColor='#00d4e0';this.style.color='#00d4e0'"
+                          onmouseout="this.style.borderColor='rgba(255,255,255,0.07)';this.style.color='#4a5568'"
+                          title="Increase rank">▲</button>
+                        <button onclick="adjustSubRating(${m.id},-1,event)"
+                          style="padding:2px 5px;border:1px solid rgba(255,255,255,0.07);
+                                 font-size:9px;color:#4a5568;background:transparent;cursor:pointer;transition:all 0.15s;"
+                          onmouseover="this.style.borderColor='#00d4e0';this.style.color='#00d4e0'"
+                          onmouseout="this.style.borderColor='rgba(255,255,255,0.07)';this.style.color='#4a5568'"
+                          title="Decrease rank">▼</button>
+                        <button onclick="askDelete(${m.id},event)"
+                          style="padding:3px;border:none;background:transparent;color:#4a5568;cursor:pointer;transition:color 0.15s;"
+                          onmouseover="this.style.color='#ff4655'" onmouseout="this.style.color='#4a5568'"
+                          title="Delete">
+                          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>`;
+
+                grid.appendChild(card);
+            });
+
+            row.appendChild(header);
+            row.appendChild(grid);
+            container.appendChild(row);
+        });
+    }
+
+    /* ── Stats ── */
+    function updateStats() {
+        const total     = list.length;
+        const reading   = list.filter(m => m.status === 'Reading').length;
+        const completed = list.filter(m => m.status === 'Completed').length;
+        const dropped   = list.filter(m => m.status === 'Dropped').length;
+        const sTier     = list.filter(m => m.tier === 'S').length;
+        const totalChaps = list.reduce((s, m) => s + (parseInt(m.chapter) || 0), 0);
+        const ratings   = list.filter(m => m.rating > 0).map(m => m.rating);
+        const avg       = ratings.length ? (ratings.reduce((a,b) => a+b, 0) / ratings.length).toFixed(1) : '—';
+
+        document.getElementById('statTotal').textContent     = total;
+        document.getElementById('statReading').textContent   = reading;
+        document.getElementById('statCompleted').textContent = completed;
+        document.getElementById('statDropped').textContent   = dropped;
+        document.getElementById('statSTier').textContent     = sTier;
+        document.getElementById('statAvg').textContent       = avg;
+        document.getElementById('statChapters').textContent  = totalChaps.toLocaleString();
+    }
+
+    /* ── Roulette ── */
+    window.openRoulette = function() {
+        if (!list.length) { toast('Your library is empty'); return; }
+        document.getElementById('rouletteTitle').textContent = '— —';
+        document.getElementById('rouletteCover').innerHTML = '<span style="font-family:Anton,sans-serif;font-size:30px;color:rgba(255,70,85,0.2)">?</span>';
+        document.getElementById('rouletteModal').classList.add('open');
+        beep('click');
+    };
+    window.closeRoulette = function() { if (spinning) return; document.getElementById('rouletteModal').classList.remove('open'); };
+    window.spinRoulette = function() {
+        if (spinning || !list.length) return;
+        spinning = true;
+        const btn = document.getElementById('rollBtn');
+        btn.disabled = true; btn.textContent = 'Rolling…';
+        let picked, count = 0, total = 18;
+        const iv = setInterval(() => {
+            picked = list[Math.floor(Math.random() * list.length)];
+            const hasCover = picked.image && picked.image.trim().length > 0;
+            document.getElementById('rouletteCover').innerHTML = hasCover
+                ? `<img src="${sanitize(picked.image)}" style="width:100%;height:100%;object-fit:cover" />`
+                : `<span style="font-family:Anton,sans-serif;font-size:30px;color:rgba(255,70,85,0.2)">ART</span>`;
+            document.getElementById('rouletteTitle').textContent = picked.title.toUpperCase();
+            beep('roll'); count++;
+            if (count >= total) {
+                clearInterval(iv); spinning = false;
+                btn.disabled = false; btn.textContent = 'Roll again';
+                beep('add'); toast(`Selected: ${picked.title}`);
+            }
+        }, 130);
+    };
+
+    /* ── Export / Import ── */
+    window.exportData = function() {
+        try {
+            const blob = new Blob([JSON.stringify(list, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = `manhwa-backup-${new Date().toISOString().slice(0,10)}.json`;
+            a.click(); URL.revokeObjectURL(url); toast('Exported successfully');
+        } catch(e) { toast('Export failed'); }
+    };
+    window.importData = function(e) {
+        const f = e.target.files[0]; if (!f) return;
+        const r = new FileReader();
+        r.onload = ev => {
             try {
-                const blob = new Blob([JSON.stringify(list, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `manhwa-backup-${new Date().toISOString().slice(0,10)}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-                toast('Exported successfully');
-            } catch (e) { toast('Export failed'); }
+                const d = JSON.parse(ev.target.result);
+                if (Array.isArray(d)) {
+                    list = d;
+                    list.forEach(m => { if (m.subRating === undefined) m.subRating = 0; });
+                    save(); renderList(); updateStats();
+                    toast(`Imported ${d.length} entries`); beep('add');
+                } else { toast('Invalid file format'); }
+            } catch { toast('Could not read file'); }
         };
-        window.importData = function(e) {
-            const f = e.target.files[0];
-            if (!f) return;
-            const r = new FileReader();
-            r.onload = ev => {
-                try {
-                    const d = JSON.parse(ev.target.result);
-                    if (Array.isArray(d)) {
-                        list = d;
-                        // Ensure subRating exists
-                        list.forEach(m => { if (m.subRating === undefined) m.subRating = 0; });
-                        save();
-                        renderList();
-                        updateStats();
-                        toast(`Imported ${d.length} entries`);
-                        beep('add');
-                    } else { toast('Invalid file format'); }
-                } catch { toast('Could not read file'); }
-            };
-            r.readAsText(f);
-        };
+        r.readAsText(f);
+    };
 
-        /* ────── Init ────── */
-        load();
-        renderList();
-        updateStats();
-        updatePreview();
+    /* ── Init ── */
+    load(); renderList(); updateStats(); updatePreview();
 
-    })();
+})();
 </script>
-
 </body>
 </html>
